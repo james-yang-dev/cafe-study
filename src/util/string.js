@@ -1,0 +1,1 @@
+export const uniqueString = () => (Math.random().toString(16) + '0000000').substr(2, 10);

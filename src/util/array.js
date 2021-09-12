@@ -1,0 +1,1 @@
+export const sumReducer = (a, b) => a + b
