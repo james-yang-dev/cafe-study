@@ -79,7 +79,7 @@ const globalStyle = css`
   select,
   textarea,
   button {
-    font-size: 12px;
+    font-size: 16px;
     line-height: 1.5;
     font-family: 'Apple SD Gothic Neo', '맑은 고딕', 'Malgun Gothic', '돋움',
       dotum, sans-serif;

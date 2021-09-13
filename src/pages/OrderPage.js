@@ -1,6 +1,6 @@
-import styled from '@emotion/styled'
-import React from 'react'
-import { MenuList } from '../features/order'
+import styled from '@emotion/styled';
+import React from 'react';
+import { MenuList } from '../features/order';
 
 export function OrderPage() {
   // 주문 페이지를 여기서 작업하세요
@@ -13,8 +13,10 @@ export function OrderPage() {
     <OrderPageWrapper>
       <MenuList />
     </OrderPageWrapper>
-  )
+  );
 }
 
 const OrderPageWrapper = styled.div`
-`
+  width: 1280px;
+  margin: 0 auto;
+`;
