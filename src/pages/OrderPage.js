@@ -1,6 +1,8 @@
 import styled from '@emotion/styled'
 import React from 'react'
-import { MenuList } from '../features/order'
+import { OrderBoard } from '../components'
+import { MenuList, OrderView } from '../features/order'
+import { MenuSearch } from '../features/order/MenuSearch'
 
 export function OrderPage() {
   // 주문 페이지를 여기서 작업하세요
@@ -11,10 +13,25 @@ export function OrderPage() {
    */
   return (
     <OrderPageWrapper>
-      <MenuList />
+      <Wrapper className="left-side">
+        <OrderBoard />
+        <OrderView />
+      </Wrapper>
+      <Wrapper>
+        <MenuSearch />
+        <MenuList />
+      </Wrapper>
     </OrderPageWrapper>
   )
 }
 
+const Wrapper = styled.div``
 const OrderPageWrapper = styled.div`
+  .left-side{
+    float: left;
+    margin-right: 1em;
+  }
+  .left-side + div{
+    overflow:hidden;
+  }
 `
