@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 
-export function Button({ onClick, text }) {
-  return (<ButtonStyled onClick={onClick}>{text}</ButtonStyled>)
+export function Button({ onClick, text, className }) {
+  return (<ButtonStyled className={className} onClick={onClick}>{text}</ButtonStyled>)
 }
 
 Button.defaultProps = {
@@ -11,6 +11,7 @@ Button.defaultProps = {
 }
 
 Button.propTypes = {
+  className: PropTypes.string,
   onClick: PropTypes.func.isRequired,
   text: PropTypes.string.isRequired
 }
