@@ -2,7 +2,6 @@ import styled from '@emotion/styled'
 import React from 'react'
 import { OrderBoard } from '../components'
 import { MenuList, OrderView } from '../features/order'
-import { MenuSearch } from '../features/order/MenuSearch'
 
 export function OrderPage() {
   // 주문 페이지를 여기서 작업하세요
@@ -18,7 +17,6 @@ export function OrderPage() {
         <OrderView />
       </Wrapper>
       <Wrapper>
-        <MenuSearch />
         <MenuList />
       </Wrapper>
     </OrderPageWrapper>
