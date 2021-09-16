@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
 import React, { useMemo } from 'react'
-import { useEffect, useState } from 'react/cjs/react.development';
-import { useRecoilValue } from 'recoil';
+import { useState } from 'react/cjs/react.development';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { Button } from '../../components';
-import { menuListState, MENU_INGR, MENU_SIZE } from '../../store';
+import { menuListState, MENU_INGR, MENU_SIZE, orderState } from '../../store';
 import { MenuSearch } from './MenuSearch';
 
 
@@ -12,6 +12,7 @@ function hasFilterKeyByMeneCondition(menuCondition, filterOptionKeys) {
 }
 
 export function MenuList() {
+  const [ order, setOrder ]= useRecoilState(orderState)
   const menuList = useRecoilValue(menuListState);
   const keyList = [...Object.values(MENU_SIZE), ...Object.values(MENU_INGR)] 
   const [filterOption, setFilterOption] = useState({
@@ -44,8 +45,36 @@ export function MenuList() {
     return tmp
   }, [menuList, filterOption])
 
-  const onClickOrderMenuWithId = (menuId) => () => {
-    console.log(menuId)
+  const onClickOrderMenuWithId = (menu) => () => {
+    setOrder((state)=>{
+      let index = state.selectedMenuList.findIndex(selected => selected.menuId === menu.menuId)
+      if(index > -1) {
+        return {
+          ...state,
+          selectedMenuList: state.selectedMenuList.map((selected, currIndex) => {
+            if(currIndex === index) {
+              let menuCount = selected.menuCount + 1
+              let menuPrice = menu.menuPrice * menuCount
+              return {
+                ...selected,
+                menuCount,
+                menuPrice
+              }
+            }
+            return {...selected}
+          })
+        }
+      }
+      return  {
+          ...state, 
+          selectedMenuList: [...state.selectedMenuList, {
+              menuId: menu.menuId,
+              menuName: menu.menuName,
+              menuPrice: menu.menuPrice,
+              menuCount: 1
+          }]
+        }
+    })
   }
 
   return (
@@ -67,7 +96,7 @@ export function MenuList() {
         const { menuId, menuName, menuSize, menuPrice } = menu
         return (
           <li key={menuId}>
-            <Button text={menuName} onClick={onClickOrderMenuWithId(menuId)}></Button> / <MenuText>{menuSize}</MenuText> / <MenuText>{menuPrice}</MenuText>
+            <Button text={menuName} onClick={onClickOrderMenuWithId(menu)}></Button> / <MenuText>{menuSize}</MenuText> / <MenuText>{menuPrice}</MenuText>
           </li>
         )
       })}

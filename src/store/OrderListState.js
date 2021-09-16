@@ -24,3 +24,11 @@ export const getNextOrderId = selector({
     return maxOrderId ? maxOrderId + 1 : 1
   }
 })
+
+export const getCurrentOrder = selector({
+  key: KEY.CURRENT_ORDER,
+  get: ({get}) => {
+    const orderList = get(orderListState)
+    return orderList[orderList.length-1]
+  }
+})

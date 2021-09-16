@@ -3,11 +3,16 @@ import { KEY } from "./key";
 import { sumReducer } from '../util/array'
 
 const initOrderState = {
-  selectedMenuList: [{
-    menuId: 'initMenu',
-    menuPrice: 0,
-    menuCount: 1,
-  }],
+  status: "INIT", // "PENDING", "MODIFY", "COMFIRM"
+  currentOrderId: 0,
+  selectedMenuList: [
+    // {
+    // menuId: 'initMenu',
+    // menuName: 'menu'
+    // menuPrice: 0,
+    // menuCount: 1,
+    // }
+  ],
 }
 
 export const orderState = atom({
@@ -25,5 +30,13 @@ export const getOrderSumPrice = selector({
     const totalPrice = orderPriceList.reduce(sumReducer, 0)
 
     return totalPrice ? totalPrice : 0
+  }
+})
+// order Status 를 가져온다.
+export const getOrderStatus = selector({
+  key: KEY.ORDER_STATUS,
+  get: ({ get }) => {
+    const order = get(orderState)
+    return order.status
   }
 })
