@@ -29,7 +29,7 @@ export function MenuList() {
   const filteredMenuList = useMemo(()=> {
     let tmp = menuList.slice()
     if(filterOption.query.length > 0){
-      tmp = tmp.filter(menu => menu.menuName.indexOf(filterOption.query) > -1)
+      tmp = tmp.filter(menu => menu.menuName.indexOf(filterOption.query) > -1 || menu.menuPrice.toString().indexOf(filterOption.query.replace(/,/,'')) > -1)
     }
     if(hasFilterKeyByMeneCondition(MENU_SIZE, filterOption.key)){
       tmp = tmp.filter(menu => filterOption.key.some(opt => {
