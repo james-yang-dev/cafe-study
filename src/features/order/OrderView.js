@@ -1,13 +1,15 @@
 import styled from "@emotion/styled"
 
-export function OrderView () {
+export function OrderView ({children}) {
     return (
         <Wrapper>
             <Wrapper>
                 품목 수량 금액
             </Wrapper>
             <Wrapper>
-                리스트 품목
+                <ul>
+                    {children}
+                </ul>
             </Wrapper>
         </Wrapper>
     )

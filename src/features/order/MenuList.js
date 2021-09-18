@@ -53,12 +53,9 @@ export function MenuList() {
           ...state,
           selectedMenuList: state.selectedMenuList.map((selected, currIndex) => {
             if(currIndex === index) {
-              let menuCount = selected.menuCount + 1
-              let menuPrice = menu.menuPrice * menuCount
               return {
                 ...selected,
-                menuCount,
-                menuPrice
+                menuCount: selected.menuCount + 1,
               }
             }
             return {...selected}
@@ -71,6 +68,7 @@ export function MenuList() {
               menuId: menu.menuId,
               menuName: menu.menuName,
               menuPrice: menu.menuPrice,
+              menuSize: menu.menuSize,
               menuCount: 1
           }]
         }

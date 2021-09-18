@@ -11,6 +11,7 @@ const initOrderState = {
     // menuName: 'menu'
     // menuPrice: 0,
     // menuCount: 1,
+    // menuSize: MENU_SIZE.TALL
     // }
   ],
 }
