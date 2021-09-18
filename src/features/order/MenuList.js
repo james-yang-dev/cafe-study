@@ -1,31 +1,34 @@
+import React from 'react';
+import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import React from 'react'
-import { useRecoilValue } from 'recoil';
-import { menuListState } from '../../store';
+import { MenuItem } from './MenuItem';
 
-export function MenuList() {
-  const menuList = useRecoilValue(menuListState);
+MenuList.propTypes = {
+  menuList: PropTypes.array.isRequired,
+};
+
+export function MenuList({ menuList }) {
+  const handleClickMenu = () => {};
+
   return (
     <MenuListWrapper>
-      {/* 
-      리스트를 처리하는 방식을 본인 스타일로 구현
-      어떻게 바꿔도 상관 없음
-      리코일 사용법을 위해 간단한 예시를 둠
-      분할이 필요하면 분할 할 것
-       */}
-      {menuList.map(menu => {
-        const { menuId, menuName, menuSize, menuPrice } = menu
+      {menuList.map((menu) => {
+        const { menuId, menuName, menuSize, menuPrice } = menu;
         return (
-          <div key={menuId}>
-            {menuName} /
-            {menuSize} /
-            {menuPrice}
-          </div>
-        )
+          <MenuItem
+            key={menuId}
+            menuName={menuName}
+            menuSize={menuSize}
+            menuPrice={menuPrice}
+            onClick={handleClickMenu}
+          />
+        );
       })}
     </MenuListWrapper>
-  )
+  );
 }
 
-const MenuListWrapper = styled.div`
-`
+const MenuListWrapper = styled.ul`
+  margin: 50px 0 0 0;
+  padding: 0;
+`;

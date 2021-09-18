@@ -1,6 +1,7 @@
-import styled from '@emotion/styled'
-import React from 'react'
-import { MenuList } from '../features/order'
+import styled from '@emotion/styled';
+import React from 'react';
+import { CurrentOrderContainer } from '../features/order/CurrentOrderContainer';
+import { MenuListContainer } from '../features/order/MenuListContainer';
 
 export function OrderPage() {
   // 주문 페이지를 여기서 작업하세요
@@ -11,10 +12,29 @@ export function OrderPage() {
    */
   return (
     <OrderPageWrapper>
-      <MenuList />
+      <CurrentOrderContainer />
+      <MenuListContainer />
     </OrderPageWrapper>
-  )
+  );
 }
 
 const OrderPageWrapper = styled.div`
-`
+  display: flex;
+  min-width: 1420px;
+  > div {
+    width: 49%;
+    height: 700px;
+    padding: 1.5% 3%;
+    box-sizing: border-box;
+    background-color: #f1f1f1;
+    border-radius: 10px;
+  }
+  > div + div {
+    margin-left: 2%;
+  }
+
+  > div:first-of-type {
+    display: flex;
+    flex-direction: column;
+  }
+`;

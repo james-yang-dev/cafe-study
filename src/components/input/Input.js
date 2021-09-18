@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 Input.propTypes = {
   onChange: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired,
-  customStyle: PropTypes.string,
+  customStyle: PropTypes.object,
   isDisabled: PropTypes.bool,
   isReadOnly: PropTypes.bool,
 };
@@ -43,6 +43,7 @@ const InputWrapper = styled.div`
 
 const InputStyled = styled.input`
   display: inline-flex;
+  width: 100%;
   height: 36px;
   line-height: 36px;
   padding: 0.6em 1em;

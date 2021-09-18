@@ -7,7 +7,7 @@ Button.propTypes = {
   onClick: PropTypes.func.isRequired,
   label: PropTypes.string.isRequired,
   varient: PropTypes.oneOf(['confirm', 'normal']).isRequired,
-  customStyle: PropTypes.string,
+  customStyle: PropTypes.object,
   isDisabled: PropTypes.bool,
 };
 
@@ -50,6 +50,7 @@ const ButtonStyled = styled.button`
   padding: 0.8em 1.5em;
   border-radius: 3px;
   cursor: pointer;
+  border: none;
   color: ${({ varient }) => (varient === 'confirm' ? '#fff' : 'inherit')};
   background-color: ${({ varient }) =>
     varient === 'confirm' ? '#2185d0' : '#e0e1e2 '};
