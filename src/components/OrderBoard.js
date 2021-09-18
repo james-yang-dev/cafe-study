@@ -6,9 +6,10 @@ export function OrderBoard () {
     // order State 값들만 뿌려 준다
     const [{currentOrderId, selectedMenuList}] = useRecoilState(orderState)
     const orderSumPrice = useRecoilValue(getOrderSumPrice)
+    // TODO
     return (
         <Wrapper>
-            주문 번호 : {currentOrderId} 수량: {selectedMenuList.length} 금액 : {orderSumPrice} 원
+            주문 번호 : {currentOrderId} 수량: {selectedMenuList.reduce((prev, curr) => prev += curr.menuCount ,0)} 금액 : {orderSumPrice} 원
         </Wrapper>
     )
 }
