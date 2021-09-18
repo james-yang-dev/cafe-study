@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import { useEffect, useState } from "react";
 import { Button } from "../../components";
 import { SearchBar } from "../../components/SearchBar";
 

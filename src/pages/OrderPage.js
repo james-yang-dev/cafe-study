@@ -4,14 +4,14 @@ import { useEffect } from 'react/cjs/react.development'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { Button, OrderBoard } from '../components'
 import { MenuList, OrderView } from '../features/order'
-import { getNextOrderId, orderListState, orderState } from '../store'
+import { getNextOrderId, orderState } from '../store'
 
-async function fakeApi () {
-  const response = await new Promise((resolve) => {
-    setTimeout(() => resolve(2), 3000)
-  }) 
-  return response
-}
+// async function fakeApi () {
+//   const response = await new Promise((resolve) => {
+//     setTimeout(() => resolve(2), 3000)
+//   }) 
+//   return response
+// }
 
 export function OrderPage() {
   // 주문 페이지를 여기서 작업하세요
