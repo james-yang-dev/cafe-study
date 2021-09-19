@@ -11,4 +11,5 @@ export function DetailPage() {
   );
 }
 
+
 const DetailPageWrapper = styled.div``;
