@@ -1,4 +1,3 @@
-export * from './Button'
-export * from './Input'
-export * from './OrderBoard'
-export * from './SearchBar'
+export * from './Button';
+export * from './Input';
+export * from './SearchBar';

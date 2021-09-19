@@ -1,111 +1,33 @@
+import React from 'react';
 import styled from '@emotion/styled';
-import React, { useMemo } from 'react'
-import { useState } from 'react/cjs/react.development';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { Button } from '../../components';
-import { menuListState, MENU_INGR, MENU_SIZE, orderState } from '../../store';
+import { MenuListItem } from './MenuListItem';
 import { MenuSearch } from './MenuSearch';
 
+import { useFilterMenu } from './useFilterMenu';
 
-function hasFilterKeyByMeneCondition(menuCondition, filterOptionKeys) {
-  return Object.values(menuCondition).some( condition => filterOptionKeys.some(opt => opt === condition))
-}
-
-export function MenuList() {
-  const [ order, setOrder ]= useRecoilState(orderState)
-  const menuList = useRecoilValue(menuListState);
-  const keyList = [...Object.values(MENU_SIZE), ...Object.values(MENU_INGR)] 
-  const [filterOption, setFilterOption] = useState({
-    query: "",
-    key: []
-  })
-  const onChange = (key) => (value) => {
-    setFilterOption((option) => {
-      option[key] = value
-      return {...option}
-    })
-  }
-  
-
-  const filteredMenuList = useMemo(()=> {
-    let tmp = menuList.slice()
-    if(filterOption.query.length > 0){
-      tmp = tmp.filter(menu => menu.menuName.indexOf(filterOption.query) > -1 || menu.menuPrice.toString().indexOf(filterOption.query.replace(/,/,'')) > -1)
-    }
-    if(hasFilterKeyByMeneCondition(MENU_SIZE, filterOption.key)){
-      tmp = tmp.filter(menu => filterOption.key.some(opt => {
-        return opt === menu.menuSize
-      }))
-    }
-    if(hasFilterKeyByMeneCondition(MENU_INGR, filterOption.key)){
-      tmp = tmp.filter(menu => filterOption.key.some(
-        key => menu.ingredients.some((ingredient)=> ingredient === key)
-      ))
-    }
-    return tmp
-  }, [menuList, filterOption])
-
-  const onClickOrderMenuWithId = (menu) => () => {
-    setOrder((state)=>{
-      let index = state.selectedMenuList.findIndex(selected => selected.menuId === menu.menuId)
-      if(index > -1) {
-        return {
-          ...state,
-          selectedMenuList: state.selectedMenuList.map((selected, currIndex) => {
-            if(currIndex === index) {
-              return {
-                ...selected,
-                menuCount: selected.menuCount + 1,
-              }
-            }
-            return {...selected}
-          })
-        }
-      }
-      return  {
-          ...state, 
-          selectedMenuList: [...state.selectedMenuList, {
-              menuId: menu.menuId,
-              menuName: menu.menuName,
-              menuPrice: menu.menuPrice,
-              menuSize: menu.menuSize,
-              menuCount: 1
-          }]
-        }
-    })
-  }
+// 메뉴 리스트 데이터는 최초에 로딩시에만 조회하니 페이지 단위에서 컨트롤 하는게 맞음.
+// 이 페이지는 전달받은 메뉴리스트 데이터를 가공하고 필터링 하는데 그 목적이 있음
+export function MenuList({ menuList }) {
+  // 복잡한 필터링 로직은 커스텀 훅으로 별도 분리함
+  const { filterOption, filteredMenuList, handleToggleKey, handleFilterQuery, handleChangeQuery } =
+    useFilterMenu(menuList);
 
   return (
     <MenuListWrapper>
-      <MenuSearch 
-        keyList={keyList} 
+      <MenuSearch
         option={filterOption}
-        onChangeKey={onChange("key")} 
-        onChangeQuery={onChange("query")}
+        onChangeKey={handleToggleKey}
+        onChangeQuery={handleChangeQuery}
+        onFilterQuery={handleFilterQuery}
       />
-      {/* 
-      리스트를 처리하는 방식을 본인 스타일로 구현
-      어떻게 바꿔도 상관 없음
-      리코일 사용법을 위해 간단한 예시를 둠
-      분할이 필요하면 분할 할 것
-       */}
       <ul>
-      {filteredMenuList.map(menu => {
-        const { menuId, menuName, menuSize, menuPrice } = menu
-        return (
-          <li key={menuId}>
-            <Button text={menuName} onClick={onClickOrderMenuWithId(menu)}></Button> / <MenuText>{menuSize}</MenuText> / <MenuText>{menuPrice}</MenuText>
-          </li>
-        )
-      })}
+        {/* 반복되는 아이템은 별도의 컴포넌트로 분리함 */}
+        {filteredMenuList.map((menu) => (
+          <MenuListItem key={menu.menuId} menu={menu} />
+        ))}
       </ul>
     </MenuListWrapper>
-  )
+  );
 }
 
-const MenuListWrapper = styled.div`
-`
-const MenuText = styled.span`
-  display: inline-block;
-  vertical-align: top;
-`
+const MenuListWrapper = styled.div``;

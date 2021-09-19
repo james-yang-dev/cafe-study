@@ -1,22 +1,21 @@
-import React, { useState } from 'react'
-import { Button, Input } from '.'
+import React, { useState } from 'react';
+import { Button, Input } from '.';
 
-export function SearchBar({value ,onSearch}) {
-    const [query, setValue] = useState(value)
-    const onKeyUp = (event) => {
-        if(event.key === "Enter") {
-            onSearch(event, query)
-        }
+export function SearchBar({ value, onChange, onSearch }) {
+  const onKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      onSearch();
     }
-    const onChange = (event) => {
-        setValue(event.target.value)
-    }
-    const onClick = (event) => {
-        onSearch(event, query)
-    }
-    return (
-        <div>
-            <Input onChange={onChange} onKeyUp={onKeyUp} value={query} /><Button text="검색" onClick={onClick} />
-        </div>
-    )
+  };
+
+  const onClick = () => {
+    onSearch();
+  };
+
+  return (
+    <div>
+      <Input onChange={onChange} onKeyDown={onKeyDown} value={value} />
+      <Button text="검색" onClick={onClick} />
+    </div>
+  );
 }

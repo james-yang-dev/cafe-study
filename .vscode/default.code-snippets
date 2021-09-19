@@ -1,0 +1,142 @@
+{
+  "Generate React-TS-Emotion default Format": {
+    "prefix": "rted",
+    "body": [
+      "import * as React from 'react';",
+      "",
+      "import styled from '@emotion/styled';",
+      "",
+      "interface I${TM_FILENAME_BASE} {",
+      "}",
+      "",
+      "export enum ${TM_FILENAME_BASE}Theme {",
+      "  Default = 'DEFAULT',",
+      "}",
+      "",
+      "const themeStyle: { [index: string]: any } = {",
+      "  [${TM_FILENAME_BASE}Theme.Default]: css``,",
+      "};",
+      "",
+      "const defaultTheme = css``;",
+      "",
+      "const style = (theme: ${TM_FILENAME_BASE}Theme) => css`",
+      "  ${${defaultTheme}}",
+      "  ${themeStyle[theme]}",
+      "`;",
+      "",
+      "export function ${TM_FILENAME_BASE}(props: I${TM_FILENAME_BASE}) {",
+      "  return (",
+      "    <div>",
+      "    </div>",
+      "  );",
+      "}",
+      ""
+    ],
+    "description": "Generate React-TS-Emotion default Format"
+  },
+  "Generate React default Component Format": {
+    "prefix": "rdcf",
+    "body": [
+      "import React from 'react';",
+      "",
+      "import styled from '@emotion/styled';",
+      "",
+      "export function ${TM_FILENAME_BASE}({}) {",
+      "  return (",
+      "    <${TM_FILENAME_BASE}Wrapper>",
+      "    </${TM_FILENAME_BASE}Wrapper>",
+      "  );",
+      "}",
+      "",
+      "const ${TM_FILENAME_BASE}Wrapper = styled.div`",
+      "`",
+      ""
+    ],
+    "description": "Generate React-Emotion default Format"
+  },
+  "Generate React-TS-Storybook default format": {
+    "prefix": "rtsd",
+    "body": [
+      "import * as React from 'react';",
+      "",
+      "import { withKnobs, text, select, boolean, number } from '@storybook/addon-knobs';",
+      "",
+      "import {${1:componentName}, ${1:componentName}Theme } from './${1:componentName}';",
+      "",
+      "const defaultTitle = 'Components';",
+      "",
+      "export default {",
+      "  title: `${${defaultTitle}}/${1:componentName}`,",
+      "  components: ${1:componentName},",
+      "  decorators: [withKnobs],",
+      "};",
+      "",
+      "export const Default = () => {",
+      "  const theme = select('Theme', ${1:componentName}Theme, ${1:componentName}Theme.Default);",
+      "  return (",
+      "    <${1:componentName} theme={theme}>",
+      "    </${1:componentName}>",
+      "  );",
+      "};",
+      "",
+      ""
+    ],
+    "description": "Generate React-TS-Storybook default format"
+  },
+  "Generate React-TS-Redux-Slice default format": {
+    "prefix": "rtrs",
+    "body": [
+      "import { createSlice, PayloadAction } from '@reduxjs/toolkit';",
+      "import { AppThunk, AppDispatch } from '@src/app/store';",
+      "import { IRootState } from '@src/app/store';",
+      "",
+      "const sliceName = '';",
+      "const initialState = {",
+      "",
+      "}",
+      "",
+      "const ${1:sliceName}Slice = createSlice({",
+      "name: sliceName,",
+      "initialState: ,",
+      "reducers: {",
+      "create(state, action: PayloadAction<>) {",
+      "};",
+      "},",
+      "});",
+      "",
+      "export const ${1:sliceName}Action = ${1:sliceName}Slice.actions;",
+      "export const ${1:sliceName}Reducer = ${1:sliceName}Slice.reducer;",
+      "",
+      "export const ${1:sliceName}Selector = {",
+      "}",
+      ""
+    ],
+    "description": "Generate React-TS-Storybook default format"
+  },
+  "React Default Format": {
+    "prefix": "rdf",
+    "body": [
+      "import React from 'react';",
+      "",
+      "export function ${TM_FILENAME_BASE}() {",
+      "  return (",
+      "  )",
+      "}"
+    ]
+  },
+  "Print to console.log": {
+    "prefix": "cl",
+    "body": ["console.log($0)"],
+    "description": "Print to console.log"
+  },
+  "Generate useState": {
+    "prefix": "rus",
+    "body": ["const [${1:stateName},set${1:stateName}] = React.useState()"],
+    "description": "Print to console.log"
+  },
+  "Generate useEffect": {
+    "prefix": "rue",
+    "body": ["React.useEffect(() => {", "}, [])"],
+    "description": "Print useeffect"
+  }
+}

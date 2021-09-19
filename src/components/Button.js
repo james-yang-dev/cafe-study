@@ -1,22 +1,28 @@
-import React from 'react'
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 
-export function Button({ onClick, text, className }) {
-  return (<ButtonStyled className={className} onClick={onClick}>{text}</ButtonStyled>)
+// class name 사용하지 않는게 좋음
+export function Button({ onClick, text, isActive }) {
+  return (
+    <ButtonStyled isActive={isActive} onClick={onClick}>
+      {text}
+    </ButtonStyled>
+  );
 }
 
 Button.defaultProps = {
   text: '',
-}
+};
 
 Button.propTypes = {
-  className: PropTypes.string,
   onClick: PropTypes.func.isRequired,
-  text: PropTypes.string.isRequired
-}
+  text: PropTypes.string.isRequired,
+  isActive: PropTypes.bool,
+};
 
 const ButtonStyled = styled.button`
-  border-color: red;
+  border-color: 'black';
+  background-color: ${(props) => (props.isActive ? 'red' : '')};
   border: solid;
-`
+`;

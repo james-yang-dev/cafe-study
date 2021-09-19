@@ -1,71 +1,46 @@
-import styled from "@emotion/styled";
-import { Button } from "../../components";
-import { SearchBar } from "../../components/SearchBar";
+import { Button } from '../../components';
+import { SearchBar } from '../../components/SearchBar';
+import { MENU_INGR, MENU_SIZE } from '../../store';
 
-export function MenuSearch ({option, keyList, onChangeQuery, onChangeKey, onChange}) {
-    /**
-     * 
-     * 메뉴 리스트 필터 조건;
-     * 
-     * 1. 검색어
-     * 2. 태그 
-     * 
-     */
-    const searchMenu = (event, value)=>{
-        onChangeQuery(value)
-    }
+export function MenuSearch({ option, onChangeQuery, onFilterQuery, onChangeKey }) {
+  const keyList = [...Object.values(MENU_SIZE), ...Object.values(MENU_INGR)];
 
-    const filterMenu = (key) => (event) => {
-        if(option.key.some((optKey) => key === optKey)) {
-            onChangeKey(option.key.filter(optKey => optKey !== key))
-        }else {
-            onChangeKey(option.key.concat(key))
-        }
-    }
+  return (
+    <div>
+      {/* 서치바에서 동작하는 기능은 내부로 이전함 */}
+      <SearchBar value={option.tempQuery} onChange={onChangeQuery} onSearch={onFilterQuery} />
+      <div>
+        {keyList.map((keyValue) => {
+          const handleToggleClick = () => onChangeKey(keyValue);
+          const isActive = option.key.some((optKey) => optKey === keyValue);
 
-    const isActiveFilter = (key) => {
-        return option.key.some(optKey => optKey ===  key)
-    }
-    return (
-        <div>
-            <SearchBar 
-                onSearch={searchMenu}
+          // 버튼 하나로 처리가 가능해서 별도의 컴포넌트 생성하지 않음
+          // class 사용하지 않도록 props를 별도 적용함
+          return (
+            <Button
+              key={keyValue}
+              isActive={isActive}
+              onClick={handleToggleClick}
+              text={keyValue}
             />
-            {/* 
-                1. text 입력
-                2. 검색 
-                3. 입력된 텍스트로 해당 내역 만 필터 되도록
-            */}
-            <div>
-                { keyList.map((keyValue, index) =>
-                    <MenuFilterButton
-                        key={`MenuFilterButton__${index}`}
-                        className={isActiveFilter(keyValue) ? 'ACTIVE' : ''}
-                        onClick={filterMenu(keyValue)} 
-                        text={keyValue} />
-
-                )}
-            </div>
-            {/*  
-                1. Filter 값 업데이트 
-                2. 선택된 필터 값에 대하여 ON/OFF
-            */}
-        </div>
-    )
+          );
+        })}
+      </div>
+    </div>
+  );
 }
 
 MenuSearch.defaultProps = {
-    option: {
-        key: [""],
-        query: ""
-    },
-    onChangeKey: (key) => { console.log(key) },
-    onChangeQuery: (query) => { console.log(query) },
-    keyList: []
-}
-const MenuFilterButton = styled(Button)`
-    &.ACTIVE {
-        background-color: red;
-    }
-`
-
+  option: {
+    key: [''],
+    query: '',
+    tempQuery: '',
+  },
+  onChangeKey: (key) => {
+    console.log(key);
+  },
+  onChangeQuery: (query) => {
+    console.log(query);
+  },
+  keyList: [],
+};
