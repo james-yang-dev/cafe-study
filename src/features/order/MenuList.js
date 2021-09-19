@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React from 'react'
+import React, {useState} from 'react'
 import { useRecoilValue } from 'recoil';
 import { menuListState } from '../../store';
 import {Button} from "../../components";
@@ -25,8 +25,9 @@ export function MenuList() {
             'Grd': 4300,
           }
         },
+        isOnlyIce: false,
         'productName' : '아메리카노',
-        'productTag': [],
+        'ingredientLabel': {},
       },
       {
         'productCode' : 'prd2',
@@ -36,8 +37,14 @@ export function MenuList() {
             'Grd': 6800,
           }
         },
+        isOnlyIce: false,
         'productName' : '바닐라라떼',
-        'productTag': ['Milk','우유'],
+        'ingredientLabel': {
+          'milk': {
+            en: 'milk',
+            ko: '우유'
+          }
+        }
       },
       {
         'productCode' : 'prd3',
@@ -47,25 +54,95 @@ export function MenuList() {
             'Grd': 6200
           }
         },
+        isOnlyIce: true,
         'productName' : '요거트',
-        'productTag': ['Milk','우유']
+        'ingredientLabel': {
+          'milk': {
+            en: 'milk',
+            ko: '우유'
+          },
+          'apple': {
+            en: 'apple',
+            ko: '사과'
+          }
+        }
       },
     ],
   };
 
-  const filterConditionList = ['Tall', 'Grd', 'ICE', 'Milk'];
-
+  const filterConditionList = [{
+    id: 'filterId1',
+    text: 'Tall',
+    type: 'size',
+  },
+  {
+    id: 'filterId2',
+    text: 'Grd',
+    type: 'size',
+  },
+  {
+    id: 'filterId3',
+    text: 'ICE',
+    type: 'isOnlyIce',
+  },
+  {
+    id: 'filterId4',
+    text: 'Milk',
+    type: 'ingredientLabel',
+  },
+  {
+    id: 'filterId5',
+    text: '우유',
+    type: 'ingredientLabel',
+  }
+  ];
+  const numRegex = /[0-9]/g;
   const handleSearch = () => {
-    console.log('검색');
+    let searchResult = [];
+    if(numRegex.test(searchValue)) {
+      productList.items.forEach((item, index) => {
+        const size = item.productPrice.size;
+        const sizeKeys = Object.keys(size);
+        sizeKeys.forEach((sizeKey) => {
+          if(size[sizeKey] === +searchValue) searchResult.push(item);
+        });
+      });
+    } else {
+      searchResult = productList.items.filter((item) => item.productName.indexOf(searchValue) > -1);
+    }
   };
 
-  const handleFilter = (e) => (item) => {
-    console.log('필터');
-    console.log(e);
-    console.log(item);
+  const handleFilter = (type, filterValue) => (e) => {
+    const ENG_REGEX =/[a-zA-Z]/g;
+    const KO_REGEX = /^[ㄱ-ㅎ가-힣]+$/g;
+
+    let filterResult = [];
+    filterResult = productList.items.filter((value) => {
+      switch (type) {
+        case 'size' :
+          const sizeKeys = Object.keys(value.productPrice.size);
+          sizeKeys.includes(filterValue)
+          return sizeKeys.includes(filterValue);
+        case 'isOnlyIce' :
+          return value.isOnlyIce;
+        case 'ingredientLabel' :
+          if(ENG_REGEX.test(filterValue)) {
+            const valueUpperCase = filterValue.toUpperCase();
+            const keyLabel = Object.keys(value.ingredientLabel).map((item) => item.toUpperCase());
+            return keyLabel.includes(valueUpperCase);
+          } else {
+            const keyInfo = Object.keys(value.ingredientLabel).map((item) => value.ingredientLabel[item].ko);
+            return keyInfo.includes(filterValue);
+          }
+      }
+    });
   };
 
   const menuList = useRecoilValue(menuListState);
+  const [searchValue, setSearchValue] = useState('');
+  const handleSearchChange = (e) => {
+    setSearchValue(e.target.value);
+  }
   return (
     <MenuListWrapper>
       {/* 
@@ -75,15 +152,15 @@ export function MenuList() {
       분할이 필요하면 분할 할 것
        */}
       <strong>메뉴 검색</strong>
-      <input type="text" id="searchKeyword" title="검색" />
+      <input type="text" id="searchKeyword" title="검색" value={searchValue} onChange={handleSearchChange}/>
       <Button onClick={handleSearch} text="검색"/>
       <strong>필터 LIST</strong>
       <ul>
         {
           filterConditionList.map((item, index) => {
             return (
-              <li key={`item_${index}`}>
-                <Button onClick={handleFilter(item)} text={item} />
+              <li key={`item_${item.id}`}>
+                <Button onClick={handleFilter(item.type, item.text)} text={item.text} />
               </li>
             )
           })
@@ -95,14 +172,21 @@ export function MenuList() {
           productList.items.map((item, index) => {
             const size = item.productPrice.size;
             const name = item.productName;
+            const isOnlyIce = item.isOnlyIce;
             const sizeKeys = Object.keys(size);
             return sizeKeys.map((sizeKey) => {
               return (
                 <li key={`proud_${index}_${sizeKey}`}>
                   <strong>{name} ({sizeKey})</strong>
                   <label>
-                    <input type="radio" name="isIce" value="false"/>HOT
-                    <input type="radio" name="isIce" value="true"/>ICE
+                    {
+                      !isOnlyIce && (
+                        <>
+                          <input type="radio" name="isIce" value="false" /> HOT
+                        </>
+                      )
+                    }
+                    <input type="radio" name="isIce" value="true" defaultChecked={isOnlyIce}/>ICE
                   </label>
                   <strong>{size[sizeKey]}</strong>
                 </li>
