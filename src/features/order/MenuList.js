@@ -96,6 +96,9 @@ export function MenuList() {
     type: 'ingredientLabel',
   }
   ];
+
+
+
   const numRegex = /[0-9]/g;
   const handleSearch = () => {
     let searchResult = [];
@@ -114,7 +117,6 @@ export function MenuList() {
 
   const handleFilter = (type, filterValue) => (e) => {
     const ENG_REGEX =/[a-zA-Z]/g;
-    const KO_REGEX = /^[ㄱ-ㅎ가-힣]+$/g;
 
     let filterResult = [];
     filterResult = productList.items.filter((value) => {
@@ -136,10 +138,19 @@ export function MenuList() {
           }
       }
     });
+    console.log(filterResult);
   };
+
+  const handleOptionChange = (itemName) => e => {
+    if(e.target.checked){
+      setOptionValue(itemName);
+      // 주문 진행
+    }
+  }
 
   const menuList = useRecoilValue(menuListState);
   const [searchValue, setSearchValue] = useState('');
+  const [optionValue, setOptionValue] = useState('');
   const handleSearchChange = (e) => {
     setSearchValue(e.target.value);
   }
@@ -170,23 +181,25 @@ export function MenuList() {
       <ul>
         {
           productList.items.map((item, index) => {
+            const code = item.productCode;
             const size = item.productPrice.size;
             const name = item.productName;
             const isOnlyIce = item.isOnlyIce;
             const sizeKeys = Object.keys(size);
             return sizeKeys.map((sizeKey) => {
+              const PREFIX_OPTION = `${code}_${index}_${sizeKey}`;
               return (
                 <li key={`proud_${index}_${sizeKey}`}>
                   <strong>{name} ({sizeKey})</strong>
-                  <label>
-                    {
-                      !isOnlyIce && (
-                        <>
-                          <input type="radio" name="isIce" value="false" /> HOT
-                        </>
-                      )
-                    }
-                    <input type="radio" name="isIce" value="true" defaultChecked={isOnlyIce}/>ICE
+                  {
+                    !isOnlyIce && (
+                      <label htmlFor={`${PREFIX_OPTION}_false`}>
+                        <input type="radio" id={`${PREFIX_OPTION}_false`} name="isIce" value="false" checked={`${PREFIX_OPTION}_false` === optionValue} onChange={handleOptionChange(`${PREFIX_OPTION}_false`)}/> HOT
+                      </label>
+                    )
+                  }
+                  <label htmlFor={`${PREFIX_OPTION}_true`}>
+                    <input type="radio" id={`${PREFIX_OPTION}_true`} name="isIce" value="true" checked={`${PREFIX_OPTION}_true` === optionValue} onChange={handleOptionChange(`${PREFIX_OPTION}_true`)}/>ICE
                   </label>
                   <strong>{size[sizeKey]}</strong>
                 </li>
