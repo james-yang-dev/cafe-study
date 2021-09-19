@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 
 import { Button } from '../../components/button/Button';
+import { printLabel } from '../../util/string';
 
 MenuItem.propTypes = {
   menuName: PropTypes.string.isRequired,
@@ -13,12 +14,10 @@ MenuItem.propTypes = {
 };
 
 export function MenuItem({ menuName, menuSize, menuPrice, onClick }) {
-  const menuLabel = `${menuName} (${menuSize[0].toUpperCase()})`;
-
   return (
     <MenuItemStyled>
       <Button
-        label={menuLabel}
+        label={printLabel(menuName, menuSize)}
         customStyle={menuItemButton}
         onClick={onClick}
       />

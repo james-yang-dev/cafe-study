@@ -1,18 +1,14 @@
-import { atom, selector } from "recoil";
-import { KEY } from "./key";
-import { sumReducer } from '../util/array'
+import { atom, selector } from 'recoil';
+import { KEY } from './key';
+import { sumReducer } from '../util/array';
 
 const initOrderState = {
-  selectedMenuList: [{
-    menuId: 'initMenu',
-    menuPrice: 0,
-    menuCount: 1,
-  }],
-}
+  selectedMenuList: [],
+};
 
 export const orderState = atom({
   key: KEY.ORDER,
-  default: initOrderState
+  default: initOrderState,
 });
 
 // 자동으로 현재 상태를 확인해서 지정된 값을 리턴하는 함수,
@@ -20,10 +16,12 @@ export const orderState = atom({
 export const getOrderSumPrice = selector({
   key: KEY.ORDER_SUM_PRICE,
   get: ({ get }) => {
-    const order = get(orderState)
-    const orderPriceList = order.selectedMenuList.map(menu => menu.menuPrice * menu.menuCount)
-    const totalPrice = orderPriceList.reduce(sumReducer, 0)
+    const order = get(orderState);
+    const orderPriceList = order.selectedMenuList.map(
+      (menu) => menu.menuPrice * menu.menuCount
+    );
+    const totalPrice = orderPriceList.reduce(sumReducer, 0);
 
-    return totalPrice ? totalPrice : 0
-  }
-})
+    return totalPrice ? totalPrice : 0;
+  },
+});

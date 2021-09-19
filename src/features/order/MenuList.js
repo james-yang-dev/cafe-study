@@ -7,9 +7,7 @@ MenuList.propTypes = {
   menuList: PropTypes.array.isRequired,
 };
 
-export function MenuList({ menuList }) {
-  const handleClickMenu = () => {};
-
+export function MenuList({ menuList, onAdd }) {
   return (
     <MenuListWrapper>
       {menuList.map((menu) => {
@@ -20,7 +18,7 @@ export function MenuList({ menuList }) {
             menuName={menuName}
             menuSize={menuSize}
             menuPrice={menuPrice}
-            onClick={handleClickMenu}
+            onClick={() => onAdd(menu)}
           />
         );
       })}

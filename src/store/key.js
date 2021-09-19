@@ -3,5 +3,7 @@ export const KEY = {
   NEXT_ORDER_ID: 'nexrOrderId',
   ORDER: 'orderState',
   ORDER_SUM_PRICE: 'orderSumPrice',
-  MENU_LIST: 'menuListState'
-}
+  MENU_LIST: 'menuListState',
+  MENU_LIST_FILTER: 'menuListFilterState',
+  FILTERED_MENU_LIST: 'filteredMenuList',
+};

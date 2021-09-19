@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
@@ -6,18 +6,35 @@ import { Input, Button } from '../../components';
 import { ToggleButton } from '../../components/button/ToggleButton';
 
 MenuSearch.propTypes = {
-  searchValue: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-  onSearch: PropTypes.func.isRequired,
+  filterOptionList: PropTypes.array.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  onFilterReset: PropTypes.func.isRequired,
+  onToggle: PropTypes.func.isRequired,
 };
 
-export function MenuSearch({ searchValue, onChange, onSearch, onSearchReset }) {
+export function MenuSearch({
+  filterData,
+  filterOptionList,
+  onSubmit,
+  onFilterReset,
+  onToggle,
+}) {
+  const [inputValue, setInputValue] = useState('');
+  const onChange = (e) => {
+    const { value } = e.target;
+    setInputValue(value);
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit(inputValue);
+  };
+  const { options } = filterData;
   return (
     <MenuSearchStyled>
       <MenuRow>
-        <form onSubmit={onSearch}>
+        <form onSubmit={handleSubmit}>
           <Input
-            value={searchValue}
+            value={inputValue}
             onChange={onChange}
             customStyle={inputTextStyle}
           />
@@ -26,18 +43,27 @@ export function MenuSearch({ searchValue, onChange, onSearch, onSearchReset }) {
             varient='confirm'
             label='검색'
             customStyle={confirmButtonStyle}
+            onClick={handleSubmit}
           />
         </form>
       </MenuRow>
       <MenuRow>
-        <ToggleButton label='Tall' onClick={() => {}} />
-        <ToggleButton label='Grd' onClick={() => {}} />
-        <ToggleButton label='Ice' onClick={() => {}} />
-        <ToggleButton label='Milk' onClick={() => {}} />
+        {filterOptionList.map((opt) => {
+          const buttonLabel = opt.replace(opt[0], opt[0].toUpperCase());
+          const isActive = options.includes(opt);
+          return (
+            <ToggleButton
+              key={opt}
+              isActive={isActive}
+              label={buttonLabel}
+              onClick={() => onToggle(opt)}
+            />
+          );
+        })}
         <Button
           label='초기화'
           customStyle={toggleButtonStyle}
-          onClick={onSearchReset}
+          onClick={onFilterReset}
         />
       </MenuRow>
     </MenuSearchStyled>

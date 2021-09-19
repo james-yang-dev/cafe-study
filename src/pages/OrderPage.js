@@ -23,7 +23,8 @@ const OrderPageWrapper = styled.div`
   min-width: 1420px;
   > div {
     width: 49%;
-    height: 700px;
+    min-width: 900px;
+    height: 800px;
     padding: 1.5% 3%;
     box-sizing: border-box;
     background-color: #f1f1f1;
