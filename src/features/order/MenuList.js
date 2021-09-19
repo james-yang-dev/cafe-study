@@ -5,6 +5,7 @@ import { menuListState } from '../../store';
 import {Button} from "../../components";
 
 // TODO : 메뉴 HOT, ICE 선택 - Input Change
+// TODO : 초기화
 // TODO : 주문 추가 - 없으면 메뉴에 추가, 있으면 해당 항목 item + 1
 // TODO : Filter (메뉴명, 메뉴 태그)
 // TODO : 검색 (메뉴명, 금액) - Input Change
@@ -97,8 +98,6 @@ export function MenuList() {
   }
   ];
 
-
-
   const numRegex = /[0-9]/g;
   const handleSearch = () => {
     let searchResult = [];
@@ -114,6 +113,10 @@ export function MenuList() {
       searchResult = productList.items.filter((item) => item.productName.indexOf(searchValue) > -1);
     }
   };
+
+  const handleInit = () => {
+    console.log('초기화');
+  }
 
   const handleFilter = (type, filterValue) => (e) => {
     const ENG_REGEX =/[a-zA-Z]/g;
@@ -138,6 +141,7 @@ export function MenuList() {
           }
       }
     });
+    // 상품 목록 진하게 표시
   };
 
   const handleOptionChange = (itemName) => e => {
@@ -176,6 +180,7 @@ export function MenuList() {
           })
         }
       </ul>
+      <Button onClick={handleInit} text="초기화"/>
       <strong>MENU LIST</strong>
       <ul>
         {
