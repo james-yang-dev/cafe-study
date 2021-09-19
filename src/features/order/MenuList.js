@@ -138,11 +138,10 @@ export function MenuList() {
           }
       }
     });
-    console.log(filterResult);
   };
 
   const handleOptionChange = (itemName) => e => {
-    if(e.target.checked){
+    if(e.target.checked) {
       setOptionValue(itemName);
       // 주문 진행
     }
