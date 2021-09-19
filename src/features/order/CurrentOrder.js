@@ -1,14 +1,27 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { Button } from '../../components';
+import { printLabel } from '../../util/string';
+import { sumReducer } from '../../util/array';
+import { useRecoilValue } from 'recoil';
+import { getOrderSumPrice } from '../../store';
 
-export function CurrentOrder() {
+CurrentOrder.propTypese = {
+  list: PropTypes.array.isRequired,
+  onReset: PropTypes.func.isRequired,
+  onDecrease: PropTypes.func.isRequired,
+};
+
+export function CurrentOrder({ list = [], onReset, onDecrease }) {
+  const totalPrice = useRecoilValue(getOrderSumPrice);
+  const totalCount = list.map((menu) => menu.menuCount).reduce(sumReducer, 0);
   return (
     <div>
       <CurrentOrderHead>
         <div>주문번호: A-37</div>
-        <div>전체: 10개</div>
-        <div>주문번호: 37,200 원</div>
+        <div>전체: {totalCount}개</div>
+        <div>{totalPrice} 원</div>
       </CurrentOrderHead>
       <CurrentOrderBody>
         <CurrentOrderList>
@@ -21,67 +34,26 @@ export function CurrentOrder() {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>아메리카노 (T)</td>
-              <td>2</td>
-              <td>6.600</td>
-              <td>
-                <Button label='빼기' onClick={() => {}} />
-              </td>
-            </tr>
-            <tr>
-              <td>아메리카노 (T)</td>
-              <td>2</td>
-              <td>6.600</td>
-              <td>
-                <Button label='빼기' onClick={() => {}} />
-              </td>
-            </tr>
-            <tr>
-              <td>아메리카노 (T)</td>
-              <td>2</td>
-              <td>6.600</td>
-              <td>
-                <Button label='빼기' onClick={() => {}} />
-              </td>
-            </tr>
-            <tr>
-              <td>아메리카노 (T)</td>
-              <td>2</td>
-              <td>6.600</td>
-              <td>
-                <Button label='빼기' onClick={() => {}} />
-              </td>
-            </tr>
-            <tr>
-              <td>아메리카노 (T)</td>
-              <td>2</td>
-              <td>6.600</td>
-              <td>
-                <Button label='빼기' onClick={() => {}} />
-              </td>
-            </tr>
-            <tr>
-              <td>아메리카노 (T)</td>
-              <td>2</td>
-              <td>6.600</td>
-              <td>
-                <Button label='빼기' onClick={() => {}} />
-              </td>
-            </tr>
-            <tr>
-              <td>아메리카노 (T)</td>
-              <td>2</td>
-              <td>6.600</td>
-              <td>
-                <Button label='빼기' onClick={() => {}} />
-              </td>
-            </tr>
+            {list.map((order) => {
+              const { menuName, menuSize, menuCount, menuId, menuPrice } =
+                order;
+              const menuSumPrice = menuCount * menuPrice;
+              return (
+                <tr key={menuId}>
+                  <td>{printLabel(menuName, menuSize)}</td>
+                  <td>{menuCount}</td>
+                  <td>{menuSumPrice}</td>
+                  <td>
+                    <Button label='빼기' onClick={() => onDecrease(menuId)} />
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </CurrentOrderList>
       </CurrentOrderBody>
       <CurrentOrderFoot>
-        <Button label='취소' onClick={() => {}} />
+        <Button label='취소' onClick={onReset} />
         <Button varient='confirm' label='주문' onClick={() => {}} />
       </CurrentOrderFoot>
     </div>
