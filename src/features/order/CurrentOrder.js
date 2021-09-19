@@ -7,7 +7,7 @@ import { sumReducer } from '../../util/array';
 import { useRecoilValue } from 'recoil';
 import { getOrderSumPrice } from '../../store';
 
-CurrentOrder.propTypese = {
+CurrentOrder.propTypes = {
   list: PropTypes.array.isRequired,
   onReset: PropTypes.func.isRequired,
   onDecrease: PropTypes.func.isRequired,
