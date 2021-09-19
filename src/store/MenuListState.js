@@ -17,6 +17,8 @@ export const MENU_INGR = {
   CAFFEINE: 'caffeine',
 };
 
+export const TOGGLE_KEY_LIST = [...Object.values(MENU_SIZE), ...Object.values(MENU_INGR)];
+
 const initMenuState = [
   {
     menuId: uniqueString(),

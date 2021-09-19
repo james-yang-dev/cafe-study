@@ -1,16 +1,14 @@
 import { Button } from '../../components';
 import { SearchBar } from '../../components/SearchBar';
-import { MENU_INGR, MENU_SIZE } from '../../store';
+import { TOGGLE_KEY_LIST } from '../../store';
 
 export function MenuSearch({ option, onChangeQuery, onFilterQuery, onChangeKey }) {
-  const keyList = [...Object.values(MENU_SIZE), ...Object.values(MENU_INGR)];
-
   return (
     <div>
       {/* 서치바에서 동작하는 기능은 내부로 이전함 */}
       <SearchBar value={option.tempQuery} onChange={onChangeQuery} onSearch={onFilterQuery} />
       <div>
-        {keyList.map((keyValue) => {
+        {TOGGLE_KEY_LIST.map((keyValue) => {
           const handleToggleClick = () => onChangeKey(keyValue);
           const isActive = option.key.some((optKey) => optKey === keyValue);
 
