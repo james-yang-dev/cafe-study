@@ -16,6 +16,9 @@ import { randomNumber } from '../../util/number';
 // TODO : styled
 // TODO : 더미데이터 > API
 
+// MEMO : '취소', 빼기, 포장, 다시 주문하기, 전체 포장 누르면 orderDetail 달라짐
+// MEMO : '전체 포장' 누르면 OrderList 달라짐
+
 export function OrderDetail() {
   const userOrderList = [
     {

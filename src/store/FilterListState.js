@@ -15,7 +15,7 @@ const initFilterState = [
   {
     id: 'filterId3',
     text: 'ICE',
-    type: 'isOnlyIce',
+    type: 'isIce',
   },
   {
     id: 'filterId4',
@@ -24,8 +24,13 @@ const initFilterState = [
   },
   {
     id: 'filterId5',
-    text: '우유',
+    text: '딸기',
     type: 'ingredientLabel',
+  },
+  {
+    id: 'filterId6',
+    text: 'Venti',
+    type: 'size',
   }
 ];
 
@@ -34,4 +39,4 @@ export const FilterListState = atom(
     key: KEY.FILTER_LIST,
     default: initFilterState,
   }
-)
+);

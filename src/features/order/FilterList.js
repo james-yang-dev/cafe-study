@@ -1,59 +1,45 @@
 import styled from '@emotion/styled';
-import { useRecoilValue } from 'recoil';
-import {FilterListState, MenuListState} from '../../store';
+import {useRecoilState, useRecoilValue} from 'recoil';
+import {FilterListState, MenuListFilterState, MenuListState} from '../../store';
 import {Button} from '../../components';
 import React, {useState} from "react";
 
-export const FilterList = () => {
-  const numRegex = /[0-9]/g;
-  const menuList = useRecoilValue(MenuListState);
+// TODO : 초기화
+// TODO : Filter (메뉴명, 메뉴 태그)
+// TODO : 검색 (메뉴명, 금액) - Input Change
+// TODO : store : recoil
+// TODO : styled
+// MEMO : 검색, 필터, 초기화 할 때마다 메뉴 목록이 달라짐 (완전 고정 아님)
 
+export const FilterList = () => {
   const filterConditionList = useRecoilValue(FilterListState);
   const [searchValue, setSearchValue] = useState('');
-  const handleSearch = () => {
-    let searchResult = [];
-    if(numRegex.test(searchValue)) {
-      menuList.items.forEach((item, index) => {
-        const size = item.productPrice.size;
-        const sizeKeys = Object.keys(size);
-        sizeKeys.forEach((sizeKey) => {
-          if(size[sizeKey] === +searchValue) searchResult.push(item);
-        });
-      });
-    } else {
-      searchResult = menuList.items.filter((item) => item.productName.indexOf(searchValue) > -1);
-    }
-  };
-  const handleInit = () => {
-    console.log('초기화');
-  }
-  const handleFilter = (type, filterValue) => (e) => {
-    const ENG_REGEX =/[a-zA-Z]/g;
 
-    let filterResult = [];
-    filterResult = menuList.items.filter((value) => {
-      switch (type) {
-        case 'size' :
-          const sizeKeys = Object.keys(value.productPrice.size);
-          sizeKeys.includes(filterValue)
-          return sizeKeys.includes(filterValue);
-        case 'isOnlyIce' :
-          return value.isOnlyIce;
-        default :
-          if(ENG_REGEX.test(filterValue)) {
-            const valueUpperCase = filterValue.toUpperCase();
-            const keyLabel = Object.keys(value.ingredientLabel).map((item) => item.toUpperCase());
-            return keyLabel.includes(valueUpperCase);
-          } else {
-            const keyInfo = Object.keys(value.ingredientLabel).map((item) => value.ingredientLabel[item].ko);
-            return keyInfo.includes(filterValue);
-          }
-      }
+  const handleSearch = () => {
+    setFilter({
+      type: 'search',
+      value: searchValue,
     });
-    // 상품 목록 진하게 표시
+    setSearchValue('');
+  };
+
+  const [filter, setFilter] = useRecoilState(MenuListFilterState);
+
+  const handleFilter = (type, filterValue) => (e) => {
+    e.preventDefault();
+    setFilter({
+      type,
+      value: filterValue,
+    });
   };
   const handleSearchChange = (e) => {
     setSearchValue(e.target.value);
+  }
+  const handleInit = () => {
+    setFilter({
+      type: 'all',
+      value: '',
+    });
   }
 
 
