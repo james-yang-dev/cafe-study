@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import React from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { Button } from '../../components';
 import { getNextOrderId, _OrderListState } from '../../store';

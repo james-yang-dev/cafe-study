@@ -8,7 +8,7 @@ const initMenuState = [
       'size': {
         'Tall': 3300,
         'Grd': 4300,
-      }
+      },
     },
     isIce: true,
     isOnlyIce: false,
@@ -21,7 +21,7 @@ const initMenuState = [
       'size': {
         'Tall': 5300,
         'Grd': 6800,
-      }
+      },
     },
     isIce: true,
     isOnlyIce: false,
@@ -30,7 +30,7 @@ const initMenuState = [
       'milk': {
         en: 'milk',
         ko: '우유'
-      }
+      },
     }
   },
   {
@@ -38,7 +38,7 @@ const initMenuState = [
     'productPrice' : {
       'size': {
         'Venti': 5800,
-      }
+      },
     },
     isIce: true,
     isOnlyIce: true,
@@ -55,6 +55,9 @@ const initMenuState = [
     }
   },
 ];
+const ENG_REGEX =/[a-zA-Z]/g;
+const NUM_REGEX = /[0-9]/g;
+
 export const MenuListState = atom({
   key: KEY.MENU_LIST,
   default: initMenuState,
@@ -85,7 +88,6 @@ export const FilteredMenuListState = selector({
           return value.isIce;
         });
       case 'ingredientLabel' :
-        const ENG_REGEX =/[a-zA-Z]/g;
         if(ENG_REGEX.test(filter.value)) {
           return list.filter((value) => {
             const valueUpperCase = filter.value.toUpperCase();
@@ -99,9 +101,8 @@ export const FilteredMenuListState = selector({
           });
         }
       case 'search':
-        const numRegex = /[0-9]/g;
         let searchResult = [];
-        if(numRegex.test(filter.value)) {
+        if(NUM_REGEX.test(filter.value)) {
           list.forEach((item, index) => {
             const size = item.productPrice.size;
             const sizeKeys = Object.keys(size);
@@ -123,14 +124,5 @@ export const FilteredMenuListState = selector({
       default :
         return list;
     }
-  }
-});
-
-// 우선 둬보자..
-export const MenuListStatusState = selector({
-  key: KEY.MENU_LIST_STATUS,
-  get: ({ get }) => {
-    const menuList = get(FilteredMenuListState);
-    const totalMenuList = menuList.length;
   }
 });

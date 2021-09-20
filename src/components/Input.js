@@ -1,9 +1,8 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 
 export function Input({ onChange, value }) {
-  return (<InputStyled type='text' onChange={onChange} value={value} />)
+  return (<InputStyled type='text' onChange={onChange} value={value} />);
 };
 
 Input.defaultProps = {
@@ -12,7 +11,7 @@ Input.defaultProps = {
 
 Input.propTypes = {
   onChange: PropTypes.func.isRequired,
-  value: PropTypes.string.isRequired
+  value: PropTypes.string.isRequired,
 };
 
 const InputStyled = styled.input`

@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
-import React from 'react';
-import {FilterList, MenuList} from '../features/order';
+import { FilterList, MenuList } from '../features/order';
 
 export function OrderPage() {
   // 주문 페이지를 여기서 작업하세요

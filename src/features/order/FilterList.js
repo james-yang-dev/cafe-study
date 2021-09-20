@@ -1,14 +1,10 @@
+import { useState } from 'react';
 import styled from '@emotion/styled';
-import {useRecoilState, useRecoilValue} from 'recoil';
-import {FilterListState, MenuListFilterState, MenuListState} from '../../store';
-import {Button} from '../../components';
-import React, {useState} from "react";
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { FilterListState, MenuListFilterState } from '../../store';
+import { Button } from '../../components';
 
-// TODO : 초기화
-// TODO : Filter (메뉴명, 메뉴 태그)
-// TODO : 검색 (메뉴명, 금액) - Input Change
-// TODO : store : recoil
-// TODO : styled
+// TODO : styled (맨 나중)
 // MEMO : 검색, 필터, 초기화 할 때마다 메뉴 목록이 달라짐 (완전 고정 아님)
 
 export const FilterList = () => {
@@ -42,7 +38,6 @@ export const FilterList = () => {
     });
   }
 
-
   return (
     <FilterListWrapper>
       <strong>메뉴 검색</strong>
@@ -54,6 +49,7 @@ export const FilterList = () => {
           filterConditionList.map((item) => {
             return (
               <li key={`item_${item.id}`}>
+                {/* TODO : filter.value와 일치하는 버튼이 있으면 강조 */}
                 <Button onClick={handleFilter(item.type, item.text)} text={item.text} />
               </li>
             );
@@ -62,7 +58,7 @@ export const FilterList = () => {
       </ul>
       <Button onClick={handleInit} text="초기화"/>
     </FilterListWrapper>
-  )
+  );
 };
 
 const FilterListWrapper = styled.div `

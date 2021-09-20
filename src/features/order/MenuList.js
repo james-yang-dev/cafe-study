@@ -1,7 +1,7 @@
+import { useState } from 'react';
 import styled from '@emotion/styled';
-import React, { useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import {FilteredMenuListState, MenuListState} from '../../store';
+import { FilteredMenuListState } from '../../store';
 import { Button } from '../../components';
 
 // TODO : 메뉴 HOT, ICE 선택 - Input Change
