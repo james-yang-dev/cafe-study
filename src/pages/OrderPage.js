@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { FilterList, MenuList } from '../features/order';
+import { OrderDetail } from "../features/detail";
 
 export function OrderPage() {
   // 주문 페이지를 여기서 작업하세요
@@ -12,6 +13,7 @@ export function OrderPage() {
     <OrderPageWrapper>
       <FilterList/>
       <MenuList />
+      <OrderDetail />
     </OrderPageWrapper>
   );
 };
