@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 import React, {useState} from 'react';
 import { useRecoilValue } from 'recoil';
-import { _MenuListState } from '../../store';
-import {Button} from "../../components";
+import { MenuListState, FilterListState } from '../../store';
+import {Button} from '../../components';
 
 // TODO : 메뉴 HOT, ICE 선택 - Input Change
 // TODO : 초기화
@@ -16,92 +16,13 @@ import {Button} from "../../components";
 // MEMO : 주문 정보 => store에 존재 해야함, 취소 버튼을 누르기 전까지 주문 정보 유지
 
 export function MenuList() {
-  const productList = {
-    'items': [
-      {
-        'productCode' : 'prd1',
-        'productPrice' : {
-          'size': {
-            'Tall': 3300,
-            'Grd': 4300,
-          }
-        },
-        isOnlyIce: false,
-        'productName' : '아메리카노',
-        'ingredientLabel': {},
-      },
-      {
-        'productCode' : 'prd2',
-        'productPrice' : {
-          'size': {
-            'Tall': 5300,
-            'Grd': 6800,
-          }
-        },
-        isOnlyIce: false,
-        'productName' : '바닐라라떼',
-        'ingredientLabel': {
-          'milk': {
-            en: 'milk',
-            ko: '우유'
-          }
-        }
-      },
-      {
-        'productCode' : 'prd3',
-        'productPrice' : {
-          'size': {
-            'Venti': 5800,
-          }
-        },
-        isOnlyIce: true,
-        'productName' : '요거트',
-        'ingredientLabel': {
-          'milk': {
-            en: 'milk',
-            ko: '우유'
-          },
-          'apple': {
-            en: 'apple',
-            ko: '사과'
-          }
-        }
-      },
-    ],
-  };
-
-  const filterConditionList = [{
-    id: 'filterId1',
-    text: 'Tall',
-    type: 'size',
-  },
-  {
-    id: 'filterId2',
-    text: 'Grd',
-    type: 'size',
-  },
-  {
-    id: 'filterId3',
-    text: 'ICE',
-    type: 'isOnlyIce',
-  },
-  {
-    id: 'filterId4',
-    text: 'Milk',
-    type: 'ingredientLabel',
-  },
-  {
-    id: 'filterId5',
-    text: '우유',
-    type: 'ingredientLabel',
-  }
-  ];
-
+  const filterConditionList = useRecoilValue(FilterListState);
+  const menuList = useRecoilValue(MenuListState);
   const numRegex = /[0-9]/g;
   const handleSearch = () => {
     let searchResult = [];
     if(numRegex.test(searchValue)) {
-      productList.items.forEach((item, index) => {
+      menuList.items.forEach((item, index) => {
         const size = item.productPrice.size;
         const sizeKeys = Object.keys(size);
         sizeKeys.forEach((sizeKey) => {
@@ -109,19 +30,17 @@ export function MenuList() {
         });
       });
     } else {
-      searchResult = productList.items.filter((item) => item.productName.indexOf(searchValue) > -1);
+      searchResult = menuList.items.filter((item) => item.productName.indexOf(searchValue) > -1);
     }
   };
-
   const handleInit = () => {
     console.log('초기화');
   }
-
   const handleFilter = (type, filterValue) => (e) => {
     const ENG_REGEX =/[a-zA-Z]/g;
 
     let filterResult = [];
-    filterResult = productList.items.filter((value) => {
+    filterResult = menuList.items.filter((value) => {
       switch (type) {
         case 'size' :
           const sizeKeys = Object.keys(value.productPrice.size);
@@ -142,20 +61,19 @@ export function MenuList() {
     });
     // 상품 목록 진하게 표시
   };
-
   const handleOptionChange = (itemName) => e => {
     if(e.target.checked) {
       setOptionValue(itemName);
       // 주문 진행
     }
   }
-
-  const menuList = useRecoilValue(_MenuListState);
-  const [searchValue, setSearchValue] = useState('');
-  const [optionValue, setOptionValue] = useState('');
   const handleSearchChange = (e) => {
     setSearchValue(e.target.value);
   }
+
+  const [searchValue, setSearchValue] = useState('');
+  const [optionValue, setOptionValue] = useState('');
+
   return (
     <MenuListWrapper>
       {/* 
@@ -170,7 +88,7 @@ export function MenuList() {
       <strong>필터 LIST</strong>
       <ul>
         {
-          filterConditionList.map((item, index) => {
+          filterConditionList.map((item) => {
             return (
               <li key={`item_${item.id}`}>
                 <Button onClick={handleFilter(item.type, item.text)} text={item.text} />
@@ -183,11 +101,9 @@ export function MenuList() {
       <strong>MENU LIST</strong>
       <ul>
         {
-          productList.items.map((item, index) => {
-            const code = item.productCode;
-            const size = item.productPrice.size;
-            const name = item.productName;
-            const isOnlyIce = item.isOnlyIce;
+          menuList.map((item, index) => {
+            const {productCode: code, productPrice: price, productName: name, isOnlyIce } = item;
+            const size = price.size;
             const sizeKeys = Object.keys(size);
             return sizeKeys.map((sizeKey) => {
               const PREFIX_OPTION = `${code}_${index}_${sizeKey}`;
@@ -211,17 +127,6 @@ export function MenuList() {
           })
         }
       </ul>
-
-      {/*{menuList.map(menu => {*/}
-      {/*  const { menuId, menuName, menuSize, menuPrice } = menu*/}
-      {/*  return (*/}
-      {/*    <div key={menuId}>*/}
-      {/*      {menuName} /*/}
-      {/*      {menuSize} /*/}
-      {/*      {menuPrice}*/}
-      {/*    </div>*/}
-      {/*  )*/}
-      {/*})}*/}
     </MenuListWrapper>
   );
 }
