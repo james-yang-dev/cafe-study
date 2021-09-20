@@ -14,7 +14,7 @@ function Routes() {
         <Route exact path="/detail" component={DetailPage} />
       </Switch>
     </Router>
-  )
+  );
 }
 
-export default Routes
+export default Routes;

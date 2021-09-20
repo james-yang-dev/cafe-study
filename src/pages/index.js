@@ -1,2 +1,2 @@
-export * from './OrderPage'
-export * from './DetailPage'
+export * from './OrderPage';
+export * from './DetailPage';

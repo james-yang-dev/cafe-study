@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
-import React, {useState} from 'react'
+import React, {useState} from 'react';
 import { useRecoilValue } from 'recoil';
-import { menuListState } from '../../store';
+import { _MenuListState } from '../../store';
 import {Button} from "../../components";
 
 // TODO : 메뉴 HOT, ICE 선택 - Input Change
@@ -51,8 +51,7 @@ export function MenuList() {
         'productCode' : 'prd3',
         'productPrice' : {
           'size': {
-            'Tall': 4800,
-            'Grd': 6200
+            'Venti': 5800,
           }
         },
         isOnlyIce: true,
@@ -130,7 +129,7 @@ export function MenuList() {
           return sizeKeys.includes(filterValue);
         case 'isOnlyIce' :
           return value.isOnlyIce;
-        case 'ingredientLabel' :
+        default :
           if(ENG_REGEX.test(filterValue)) {
             const valueUpperCase = filterValue.toUpperCase();
             const keyLabel = Object.keys(value.ingredientLabel).map((item) => item.toUpperCase());
@@ -151,7 +150,7 @@ export function MenuList() {
     }
   }
 
-  const menuList = useRecoilValue(menuListState);
+  const menuList = useRecoilValue(_MenuListState);
   const [searchValue, setSearchValue] = useState('');
   const [optionValue, setOptionValue] = useState('');
   const handleSearchChange = (e) => {
@@ -176,7 +175,7 @@ export function MenuList() {
               <li key={`item_${item.id}`}>
                 <Button onClick={handleFilter(item.type, item.text)} text={item.text} />
               </li>
-            )
+            );
           })
         }
       </ul>
@@ -207,7 +206,7 @@ export function MenuList() {
                   </label>
                   <strong>{size[sizeKey]}</strong>
                 </li>
-              )
+              );
             })
           })
         }
@@ -224,7 +223,7 @@ export function MenuList() {
       {/*  )*/}
       {/*})}*/}
     </MenuListWrapper>
-  )
+  );
 }
 
 const MenuListWrapper = styled.div`

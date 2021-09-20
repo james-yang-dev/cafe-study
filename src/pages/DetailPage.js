@@ -1,6 +1,6 @@
-import styled from '@emotion/styled'
-import React from 'react'
-import { OrderDetail, OrderList } from '../features/detail'
+import styled from '@emotion/styled';
+import React from 'react';
+import { OrderDetail, OrderList } from '../features/detail';
 
 export function DetailPage() {
   return (
@@ -8,8 +8,8 @@ export function DetailPage() {
       <OrderDetail />
       <OrderList />
     </DetailPageWrapper>
-  )
-}
+  );
+};
 
 const DetailPageWrapper = styled.div`
-`
+`;

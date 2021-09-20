@@ -2,8 +2,8 @@ import styled from '@emotion/styled';
 import React from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { Button } from '../../components';
-import { getNextOrderId, orderListState } from '../../store';
-import { randomNumber } from '../../util/number'
+import { getNextOrderId, _OrderListState } from '../../store';
+import { randomNumber } from '../../util/number';
 
 // TODO : 주문번호 INDEX + 1 (주문 상세로 이동하는 경우에는 유지)
 // TODO : 주문 목록에서 삭제
@@ -34,8 +34,8 @@ export function OrderDetail() {
     },
   ];
 
-  const [orders, setOrders] = useRecoilState(orderListState);
-  const nextOrderId = useRecoilValue(getNextOrderId)
+  const [orders, setOrders] = useRecoilState(_OrderListState);
+  const nextOrderId = useRecoilValue(getNextOrderId);
 
   const handleRandomOrder = () => {
     const newOrder = {
@@ -43,10 +43,10 @@ export function OrderDetail() {
       orderCount: randomNumber(),
       orderPrice: randomNumber(1000, 20000),
       orderDetail: [{}]
-    }
+    };
 
-    setOrders((orders) => [...orders, newOrder])
-  }
+    setOrders((orders) => [...orders, newOrder]);
+  };
 
   const handleCancel = () => {
     if(window.confirm('주문을 취소하시겠습니까?')) {
@@ -116,7 +116,7 @@ export function OrderDetail() {
                   <Button onClick={handleDelete} text="빼기" />
                   <span>{isTakeout}</span>
                 </li>
-              )
+              );
             })
           }
         </ul>
@@ -129,7 +129,7 @@ export function OrderDetail() {
       <Button onClick={handleRandomOrder} text={buttonText} />
     </OrderDetailWrapper>
   )
-}
+};
 
 const OrderDetailWrapper = styled.div`
   

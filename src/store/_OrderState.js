@@ -10,7 +10,7 @@ const initOrderState = {
   }],
 }
 
-export const orderState = atom({
+export const _OrderState = atom({
   key: KEY.ORDER,
   default: initOrderState
 });
@@ -20,7 +20,7 @@ export const orderState = atom({
 export const getOrderSumPrice = selector({
   key: KEY.ORDER_SUM_PRICE,
   get: ({ get }) => {
-    const order = get(orderState)
+    const order = get(_OrderState)
     const orderPriceList = order.selectedMenuList.map(menu => menu.menuPrice * menu.menuCount)
     const totalPrice = orderPriceList.reduce(sumReducer, 0)
 

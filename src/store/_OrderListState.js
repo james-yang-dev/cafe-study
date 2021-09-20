@@ -8,7 +8,7 @@ const initOrderListState = [{
   orderDetail: [{}]
 }]
 
-export const orderListState = atom({
+export const _OrderListState = atom({
   key: KEY.ORDER_LIST,
   default: initOrderListState
 });
@@ -17,7 +17,7 @@ export const orderListState = atom({
 export const getNextOrderId = selector({
   key: KEY.NEXT_ORDER_ID,
   get: ({ get }) => {
-    const orderList = get(orderListState)
+    const orderList = get(_OrderListState)
     const orderIdList = orderList.map(order => order.orderId)
     const maxOrderId = Math.max(...orderIdList)
 

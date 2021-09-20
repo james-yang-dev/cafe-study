@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import React from 'react'
 import { useRecoilValue } from 'recoil';
-import { orderListState } from '../../store';
+import { _OrderListState } from '../../store';
 
 // TODO : 주문 전체 목록 불러오기
 // TODO : 개별 주문 상태 변경 (완료 버튼 누를 경우 취소선 적용)
@@ -23,8 +23,8 @@ export function OrderList() {
       "totalPrice": 20000,
       "isComplete": false
     },
-  ]
-  const orderList = useRecoilValue(orderListState);
+  ];
+  const orderList = useRecoilValue(_OrderListState);
   return (
     <OrderListWrapper>
       <strong>전체 주문 목록</strong>
@@ -40,7 +40,7 @@ export function OrderList() {
               <li key={item.orderCode}>
                 {code} / {count}개 / {totalPrice}
               </li>
-            )
+            );
           })
         }
       </ul>
