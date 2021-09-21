@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 
 export function Button({ onClick, text }) {
-  return (<ButtonStyled onClick={onClick}>{text}</ButtonStyled>);
-};
+  return <ButtonStyled onClick={onClick}>{text}</ButtonStyled>;
+}
 
 Button.defaultProps = {
   text: '',

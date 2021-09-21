@@ -1,5 +1,5 @@
-import { atom } from "recoil";
-import { KEY } from "./key";
+import { atom } from 'recoil';
+import { KEY } from './key';
 
 const initFilterState = [
   {
@@ -31,12 +31,10 @@ const initFilterState = [
     id: 'filterId6',
     text: 'Venti',
     type: 'size',
-  }
+  },
 ];
 
-export const FilterListState = atom(
-  {
-    key: KEY.FILTER_LIST,
-    default: initFilterState,
-  }
-);
+export const FilterListState = atom({
+  key: KEY.FILTER_LIST,
+  default: initFilterState,
+});

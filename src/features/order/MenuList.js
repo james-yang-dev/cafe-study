@@ -15,57 +15,81 @@ import { Button } from '../../components';
 
 export function MenuList() {
   const menuList = useRecoilValue(FilteredMenuListState);
-  const handleOptionChange = (itemName) => e => {
-    if(e.target.checked) {
+  const handleOptionChange = (itemName) => (e) => {
+    if (e.target.checked) {
       setOptionValue(itemName);
     }
-  }
+  };
   const handleOrder = (orderInfo) => (e) => {
     // 주문
-  }
+  };
   const [optionValue, setOptionValue] = useState('');
 
   return (
     <MenuListWrapper>
-      {/* 
-      리스트를 처리하는 방식을 본인 스타일로 구현
-      어떻게 바꿔도 상관 없음
-      리코일 사용법을 위해 간단한 예시를 둠
-      분할이 필요하면 분할 할 것
-       */}
       <strong>MENU LIST</strong>
       <ul>
-        {
-          menuList.map((item, index) => {
-            const {productCode: code, productPrice: price, productName: name, isOnlyIce } = item;
-            const size = price.size;
-            const sizeKeys = Object.keys(size);
-            return sizeKeys.map((sizeKey) => {
-              const PREFIX_OPTION = `${code}_${index}_${sizeKey}`;
-              return (
-                <li key={`proud_${index}_${sizeKey}`}>
-                  <strong>{name} ({sizeKey})</strong>
-                  {
-                    !isOnlyIce && (
-                      <label htmlFor={`${PREFIX_OPTION}_false`}>
-                        <input type="radio" id={`${PREFIX_OPTION}_false`} name="isIce" value="false" checked={`${PREFIX_OPTION}_false` === optionValue} onChange={handleOptionChange(`${PREFIX_OPTION}_false`)}/> HOT
-                      </label>
-                    )
-                  }
-                  <label htmlFor={`${PREFIX_OPTION}_true`}>
-                    <input type="radio" id={`${PREFIX_OPTION}_true`} name="isIce" value="true" checked={`${PREFIX_OPTION}_true` === optionValue} onChange={handleOptionChange(`${PREFIX_OPTION}_true`)}/>ICE
+        {menuList.map((item, index) => {
+          const {
+            productCode: code,
+            productPrice: price,
+            productName: name,
+            isOnlyIce,
+          } = item;
+          const size = price.size;
+          const sizeKeys = Object.keys(size);
+          return sizeKeys.map((sizeKey) => {
+            const PREFIX_OPTION = `${code}_${index}_${sizeKey}`;
+            return (
+              <li key={`proud_${index}_${sizeKey}`}>
+                <strong>
+                  {name} ({sizeKey})
+                </strong>
+                {/* 
+                  UI관점에서 HOT과 ICE는 별도의 메뉴로 보이는게 접근성이 편한다고 판단됨.
+                  
+                  */}
+                {!isOnlyIce && (
+                  <label htmlFor={`${PREFIX_OPTION}_false`}>
+                    <input
+                      type="radio"
+                      id={`${PREFIX_OPTION}_false`}
+                      name="isIce"
+                      value="false"
+                      checked={`${PREFIX_OPTION}_false` === optionValue}
+                      onChange={handleOptionChange(`${PREFIX_OPTION}_false`)}
+                    />{' '}
+                    HOT
                   </label>
-                  <strong>{size[sizeKey]}</strong>
-                  <Button onClick={handleOrder(PREFIX_OPTION)} text="주문" />
-                </li>
-              );
-            })
-          })
-        }
+                )}
+                <label htmlFor={`${PREFIX_OPTION}_true`}>
+                  <input
+                    type="radio"
+                    id={`${PREFIX_OPTION}_true`}
+                    name="isIce"
+                    value="true"
+                    checked={`${PREFIX_OPTION}_true` === optionValue}
+                    onChange={handleOptionChange(`${PREFIX_OPTION}_true`)}
+                  />
+                  ICE
+                </label>
+                <strong>{size[sizeKey]}</strong>
+                {/* 
+                  실제 주문되는 순간에 전달되는 정보는 여러개의 조합으로
+                  하나의 문자를 보내고, 문자의 특수한 기호를 기준으로 다시 나눠서 사용하는 방식은 권장되지 않음.
+                  데이터를 합치고 나누는 순간에 잘못될 가능성이 높아 각자의 변수로 전달하는 방식이 권장됨
+
+                  ex -> _중간에 값이 없어서 순서가 뒤바뀌는 경우 문제가 생김
+                
+                  */}
+                <Button onClick={handleOrder(PREFIX_OPTION)} text="주문" />
+              </li>
+            );
+          });
+        })}
       </ul>
     </MenuListWrapper>
   );
 }
 
-const MenuListWrapper = styled.div`
-`
+const MenuListWrapper = styled.div``;

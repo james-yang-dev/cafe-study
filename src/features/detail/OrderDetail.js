@@ -3,6 +3,7 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { Button } from '../../components';
 import { getNextOrderId, _OrderListState } from '../../store';
 import { randomNumber } from '../../util/number';
+import { OrderDetailItem } from './OrderDetailItem';
 
 // TODO : 주문번호 INDEX + 1 (주문 상세로 이동하는 경우에는 유지)
 // TODO : 주문 목록에서 삭제
@@ -21,18 +22,18 @@ import { randomNumber } from '../../util/number';
 export function OrderDetail() {
   const userOrderList = [
     {
-      "orderName": "아메리카노(Tall)",
-      "isIce": true,
-      "orderCount": 2,
-      "price": 4000,
-      "isTakeout": false,
+      orderName: '아메리카노(Tall)',
+      isIce: true,
+      orderCount: 2,
+      price: 4000,
+      isTakeout: false,
     },
     {
-      "orderName": "라떼(Tall)",
-      "isIce": false,
-      "orderCount": 10,
-      "price": 20000,
-      "isTakeout": false
+      orderName: '라떼(Tall)',
+      isIce: false,
+      orderCount: 10,
+      price: 20000,
+      isTakeout: false,
     },
   ];
 
@@ -44,14 +45,14 @@ export function OrderDetail() {
       orderId: nextOrderId,
       orderCount: randomNumber(),
       orderPrice: randomNumber(1000, 20000),
-      orderDetail: [{}]
+      orderDetail: [{}],
     };
 
     setOrders((orders) => [...orders, newOrder]);
   };
 
   const handleCancel = () => {
-    if(window.confirm('주문을 취소하시겠습니까?')) {
+    if (window.confirm('주문을 취소하시겠습니까?')) {
       console.log('취소 yes');
     } else {
       console.log('취소 no');
@@ -60,10 +61,6 @@ export function OrderDetail() {
 
   const handleOrder = () => {
     console.log('주문');
-  }
-
-  const handleDelete = () => {
-    console.log('빼기');
   };
 
   const handleAllCheck = () => {
@@ -76,7 +73,7 @@ export function OrderDetail() {
 
   const handleConfirm = () => {
     console.log('주문 확인');
-  }
+  };
 
   const orderId = 'A-37';
   const orderCount = 10;
@@ -86,12 +83,11 @@ export function OrderDetail() {
 
   return (
     <OrderDetailWrapper>
-      {/* 
-      화면상 주문을 이곳에서 확인하고 주문 완료시에 리스트로 넘어가는 기능을 구현
-      랜덤 주문 생성은 recoil 사용법을 가이드 함
-      */}
       <div>
         <strong>주문 정보</strong>
+        {/*  dl은 주문번호 관련된 정보를 처리하기에 적합하지 않은것으로 보임 
+          주문번호가 아래의 ul리스트와 연결되어 있기때문에 dl이 전체의 정보를 포함하지 않았다고 판단됨
+        */}
         <dl>
           <dt>주문번호</dt>
           <dd>{orderId}</dd>
@@ -102,37 +98,20 @@ export function OrderDetail() {
         </dl>
         <strong>주문 LIST</strong>
         <ul>
-          {
-            userOrderList.map((item, index) => {
-              const name = item.orderName;
-              const isIce = item.isIce;
-              const price = item.price;
-              const count = item.orderCount;
-              const isTakeout = item.isTakeout;
-              return (
-                <li key={`user_order_${index}`}>
-                  <span>{name}</span>
-                  <span>{isIce ? 'ICE' : 'HOT'}</span>
-                  <span>{count}</span>
-                  <span>{price}</span>
-                  <Button onClick={handleDelete} text="빼기" />
-                  <span>{isTakeout}</span>
-                </li>
-              );
-            })
-          }
+          {/* `user_order_${index}` key를 이렇게 생성해도 index만 넣는것과 다를바 없음 */}
+          {userOrderList.map((item, index) => (
+            <OrderDetailItem key={index} item={item} />
+          ))}
         </ul>
-        <Button onClick={handleCancel} text="취소"/>
-        <Button onClick={handleOrder} text="주문"/>
-        <Button onClick={handleAllCheck} text="전체포장"/>
-        <Button onClick={handleReorder} text="다시주문하기"/>
-        <Button onClick={handleConfirm} text="주문확인"/>
+        <Button onClick={handleCancel} text="취소" />
+        <Button onClick={handleOrder} text="주문" />
+        <Button onClick={handleAllCheck} text="전체포장" />
+        <Button onClick={handleReorder} text="다시주문하기" />
+        <Button onClick={handleConfirm} text="주문확인" />
       </div>
       <Button onClick={handleRandomOrder} text={buttonText} />
     </OrderDetailWrapper>
-  )
-};
+  );
+}
 
-const OrderDetailWrapper = styled.div`
-  
-`;
+const OrderDetailWrapper = styled.div``;
