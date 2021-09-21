@@ -6,4 +6,5 @@ export const KEY = {
   MENU_LIST: 'menuListState',
   MENU_LIST_FILTER: 'menuListFilterState',
   FILTERED_MENU_LIST: 'filteredMenuList',
+  ORDER_DETAIL_LIST_STATE: 'orderDetailListState',
 };

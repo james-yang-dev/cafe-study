@@ -86,7 +86,10 @@ export const filterdMenuListState = selector({
     const menuList = get(menuListState);
     const filterState = get(menuListFilterState);
     const { keyword, options } = filterState;
-    let filteredList = [...menuList];
+    let filteredList = [...menuList].map((menu) => ({
+      ...menu,
+      isPackaging: false,
+    }));
 
     if (keyword.length > 0) {
       filteredList = filteredList.filter((menu) => {

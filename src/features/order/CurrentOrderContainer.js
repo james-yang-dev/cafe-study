@@ -1,11 +1,25 @@
 import React from 'react';
-import { useRecoilState } from 'recoil';
-import { orderState } from '../../store';
+import { useHistory } from 'react-router';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { getNextOrderId, orderDetailListState, orderState } from '../../store';
 import { CurrentOrder } from './CurrentOrder';
 
 export function CurrentOrderContainer() {
+  const history = useHistory();
+  const orderId = String(useRecoilValue(getNextOrderId));
   const [currentOrderList, setCurrentOrderList] = useRecoilState(orderState);
   const { selectedMenuList } = currentOrderList;
+  const setOrderDetailList = useSetRecoilState(orderDetailListState);
+
+  const handleConfirmOrder = () => {
+    const newOrderDetailList = selectedMenuList.map((menu) => ({
+      ...menu,
+      isPackaging: false,
+    }));
+
+    setOrderDetailList(newOrderDetailList);
+    history.push('/detail');
+  };
 
   const handleDecreaseOrder = (menuId) => {
     setCurrentOrderList({
@@ -33,8 +47,10 @@ export function CurrentOrderContainer() {
 
   return (
     <CurrentOrder
+      orderId={orderId}
       list={selectedMenuList}
       onReset={handleResetOrderList}
+      onConfirm={handleConfirmOrder}
       onDecrease={handleDecreaseOrder}
     />
   );
