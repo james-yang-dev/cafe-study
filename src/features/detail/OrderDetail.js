@@ -81,13 +81,25 @@ export function OrderDetail() {
       })
     }
   }
-
+  // MEMO : 주문 확인이라는 버튼이 주문한 내용을 확인하고 수정하기 위한 용도 ?
   const handleOrderCheck = (e) => {
+    setSelectMenuList((menuItem) => {
+      let newArr = menuItem.selectedMenuList.map((item) => {
+        const isTakeout = false;
+        return {
+          ...item,
+          isTakeout,
+        }
+      });
+
+      return {
+        selectedMenuList: [
+          ...newArr,
+        ]
+      };
+    });
     history.push({
       pathname: "/order",
-    })
-    setSelectMenuList({
-      selectedMenuList: []
     })
   }
 
