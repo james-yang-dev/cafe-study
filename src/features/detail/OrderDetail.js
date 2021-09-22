@@ -67,12 +67,15 @@ export function OrderDetail() {
     }
 
     setOrders((orders) => [...orders, newOrder])
+
   }
 
   const handleOrderCancel = (e) => {
-    setSelectMenuList({
-      selectedMenuList: []
-    })
+    if(window.confirm('정말로 전체 주문을 취소 하시겠습니까?')) {
+      setSelectMenuList({
+        selectedMenuList: []
+      })
+    }
   }
 
   const buttonText = '랜덤 주문 생성'
