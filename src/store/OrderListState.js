@@ -2,9 +2,9 @@ import { atom, selector } from "recoil";
 import { KEY } from "./key";
 
 const initOrderListState = [{
-  orderId: 1,
-  orderCount: 10,
-  orderPrice: 10200,
+  orderId: 0,
+  orderCount: 1,
+  orderPrice: 0,
   orderDetail: [{}]
 }]
 

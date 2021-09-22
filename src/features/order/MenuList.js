@@ -1,10 +1,48 @@
 import styled from '@emotion/styled';
 import React from 'react'
-import { useRecoilValue } from 'recoil';
-import {filteredMenuListState} from '../../store';
+import {useRecoilState, useRecoilValue} from 'recoil';
+import {filteredMenuListState, orderState} from '../../store';
+import {nanoid} from "nanoid";
 
 export function MenuList() {
   const menuList = useRecoilValue(filteredMenuListState);
+
+  /*
+
+const initOrderState = {
+  selectedMenuList: [{
+    menuId: 'initMenu',
+    menuPrice: 0,
+    menuCount: 1,
+    isTakeout: false
+  }],
+}
+
+   */
+
+  const [selectMenuList, setSelectMenuList] = useRecoilState(orderState);
+
+  const handleAddOrder = ({menuName, menuSize, menuPrice}) => (e) => {
+    setSelectMenuList((menuItem) => {
+      let res = [];
+      res = {
+        selectedMenuList: [
+          ...menuItem.selectedMenuList,
+          {
+            menuId:  nanoid(),
+            menuName,
+            menuPrice: +menuPrice,
+            menuSize,
+            menuCount: 1,
+            isTakeout: false,
+          }
+        ]
+      };
+      return res;
+    });
+
+  };
+
   return (
     <MenuListWrapper>
       {/*
@@ -16,7 +54,7 @@ export function MenuList() {
       {menuList.map(menu => {
         const { menuId, menuName, menuSize, menuPrice } = menu
         return (
-          <MenuItemWrapper key={menuId}>
+          <MenuItemWrapper key={menuId} onClick={handleAddOrder({menuName, menuSize, menuPrice})}>
             {menuName} / {menuSize} / {menuPrice}
           </MenuItemWrapper>
         )

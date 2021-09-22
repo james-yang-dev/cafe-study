@@ -120,7 +120,7 @@ export const menuListFilterState = atom({
 });
 
 export const filterTypeState = atom({
-  key: 'filterTypeState',
+  key: KEY.FILTER_TYPE,
   default: {
     menuSize: {
       isChecked: false,

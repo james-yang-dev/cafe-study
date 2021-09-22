@@ -3,11 +3,7 @@ import { KEY } from "./key";
 import { sumReducer } from '../util/array'
 
 const initOrderState = {
-  selectedMenuList: [{
-    menuId: 'initMenu',
-    menuPrice: 0,
-    menuCount: 1,
-  }],
+  selectedMenuList: [],
 }
 
 export const orderState = atom({
@@ -23,7 +19,18 @@ export const getOrderSumPrice = selector({
     const order = get(orderState)
     const orderPriceList = order.selectedMenuList.map(menu => menu.menuPrice * menu.menuCount)
     const totalPrice = orderPriceList.reduce(sumReducer, 0)
-
+    console.log(totalPrice);
     return totalPrice ? totalPrice : 0
   }
-})
+});
+
+export const getOrderSumCount = selector({
+  key: KEY.ORDER_SUM_COUNT,
+  get: ({ get }) => {
+    const order = get(orderState)
+    const orderPriceList = order.selectedMenuList.map(menu => menu.menuCount)
+    const totalCount = orderPriceList.reduce(sumReducer, 0)
+
+    return totalCount ? totalCount : 0
+  }
+});
