@@ -2,15 +2,16 @@ import styled from '@emotion/styled';
 import React from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { Button } from '../../components';
-import {getNextOrderId, orderListState, orderState} from '../../store';
+import {getNextOrderId, getOrderSumCount, getOrderSumPrice, orderListState, orderState} from '../../store';
 import { randomNumber } from '../../util/number'
 
 export function OrderDetail() {
   const [orders, setOrders] = useRecoilState(orderListState);
   const nextOrderId = useRecoilValue(getNextOrderId)
-
   const [menuList, setMenuList] = useRecoilState(orderState);
   const [selectMenuList, setSelectMenuList] = useRecoilState(orderState);
+  const totalCount = useRecoilValue(getOrderSumCount);
+  const totalPrice = useRecoilValue(getOrderSumPrice);
 
   const handleRemoveOrder = ({ menuId }) => (e) => {
     setSelectMenuList((menuItem) => {
@@ -58,13 +59,12 @@ export function OrderDetail() {
     });
   }
 
-
-  const handleRandomOrder = () => {
+  const handleOrderComplete = (e) => {
     const newOrder = {
       orderId: nextOrderId,
-      orderCount: randomNumber(),
-      orderPrice: randomNumber(1000, 20000),
-      orderDetail: [{}]
+      orderCount: totalCount,
+      orderPrice: totalPrice,
+      orderDetail: [selectMenuList.selectedMenuList]
     }
 
     setOrders((orders) => [...orders, newOrder])
@@ -94,8 +94,8 @@ export function OrderDetail() {
           })
         }
       </ul>
-      <Button onClick={handleRandomOrder} text={buttonText} />
       <Button onClick={handleTakeoutAll} text="전체포장" />
+      <Button onClick={handleOrderComplete} text="주문완료" />
     </OrderDetailWrapper>
   )
 }
