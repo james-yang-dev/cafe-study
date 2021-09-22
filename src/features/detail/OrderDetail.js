@@ -82,6 +82,15 @@ export function OrderDetail() {
     }
   }
 
+  const handleOrderCheck = (e) => {
+    history.push({
+      pathname: "/order",
+    })
+    setSelectMenuList({
+      selectedMenuList: []
+    })
+  }
+
   const buttonText = '랜덤 주문 생성'
 
   return (
@@ -109,6 +118,7 @@ export function OrderDetail() {
       <Button onClick={handleTakeoutAll} text="전체포장" />
       <Button onClick={handleOrderCancel} text="전체취소" />
       <Button onClick={handleOrderComplete} text="주문완료" />
+      <Button onClick={handleOrderCheck} text="주문확인" />
     </OrderDetailWrapper>
   )
 }
