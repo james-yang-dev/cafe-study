@@ -5,19 +5,28 @@ import { Button } from '../../components';
 import { Checkbox } from '../../components/checkbox/Checkbox';
 import { printLabel } from '../../util/string';
 import { OrderBody, OrderFoot, OrderHead } from '../../components/order';
-import { useRecoilValue } from 'recoil';
-import { sumReducer } from '../../util/array';
-import { getOrderSumPrice } from '../../store';
 
 OrderDetail.propTypes = {
   orderId: PropTypes.string.isRequired,
+  totalCount: PropTypes.number.isRequired,
+  totalPrice: PropTypes.number.isRequired,
   list: PropTypes.array.isRequired,
-  onChange: PropTypes.func.isRequired,
+  onChecked: PropTypes.func.isRequired,
+  onAllPackaging: PropTypes.func.isRequired,
+  onReOrder: PropTypes.func.isRequired,
+  onConfirmOrder: PropTypes.func.isRequired,
 };
 
-export function OrderDetail({ orderId, list = [], onChecked }) {
-  const totalPrice = useRecoilValue(getOrderSumPrice);
-  const totalCount = list.map((menu) => menu.menuCount).reduce(sumReducer, 0);
+export function OrderDetail({
+  orderId,
+  totalCount,
+  totalPrice,
+  list = [],
+  onChecked,
+  onAllPackaging,
+  onReOrder,
+  onConfirmOrder,
+}) {
   return (
     <OrderDetailWrapper>
       {/* 
@@ -56,9 +65,9 @@ export function OrderDetail({ orderId, list = [], onChecked }) {
         })}
       </OrderBody>
       <OrderFoot>
-        <Button label='취소' onClick={() => {}} />
-        <Button label='다시주문하기' onClick={() => {}} />
-        <Button varient='confirm' label='주문' onClick={() => {}} />
+        <Button label='전체포장' onClick={onAllPackaging} />
+        <Button label='다시 주문하기' onClick={onReOrder} />
+        <Button varient='confirm' label='주문 확인' onClick={onConfirmOrder} />
       </OrderFoot>
     </OrderDetailWrapper>
   );

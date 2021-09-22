@@ -17,7 +17,7 @@ export function CurrentOrderContainer() {
       isPackaging: false,
     }));
 
-    setOrderDetailList(newOrderDetailList);
+    setOrderDetailList({ orderId, orderList: newOrderDetailList });
     history.push('/detail');
   };
 
