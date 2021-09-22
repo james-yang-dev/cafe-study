@@ -3,7 +3,6 @@ import React from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { Button } from '../../components';
 import {getNextOrderId, getOrderSumCount, getOrderSumPrice, orderListState, orderState} from '../../store';
-import { randomNumber } from '../../util/number'
 
 export function OrderDetail() {
   const [orders, setOrders] = useRecoilState(orderListState);
@@ -70,6 +69,12 @@ export function OrderDetail() {
     setOrders((orders) => [...orders, newOrder])
   }
 
+  const handleOrderCancel = (e) => {
+    setSelectMenuList({
+      selectedMenuList: []
+    })
+  }
+
   const buttonText = '랜덤 주문 생성'
 
   return (
@@ -95,6 +100,7 @@ export function OrderDetail() {
         }
       </ul>
       <Button onClick={handleTakeoutAll} text="전체포장" />
+      <Button onClick={handleOrderCancel} text="전체취소" />
       <Button onClick={handleOrderComplete} text="주문완료" />
     </OrderDetailWrapper>
   )
