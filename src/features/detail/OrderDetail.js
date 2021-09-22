@@ -3,6 +3,7 @@ import React from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { Button } from '../../components';
 import {getNextOrderId, getOrderSumCount, getOrderSumPrice, orderListState, orderState} from '../../store';
+import {useHistory} from "react-router";
 
 export function OrderDetail() {
   const [orders, setOrders] = useRecoilState(orderListState);
@@ -11,6 +12,7 @@ export function OrderDetail() {
   const [selectMenuList, setSelectMenuList] = useRecoilState(orderState);
   const totalCount = useRecoilValue(getOrderSumCount);
   const totalPrice = useRecoilValue(getOrderSumPrice);
+  const history = useHistory();
 
   const handleRemoveOrder = ({ menuId }) => (e) => {
     setSelectMenuList((menuItem) => {
@@ -67,7 +69,9 @@ export function OrderDetail() {
     }
 
     setOrders((orders) => [...orders, newOrder])
-
+    history.push({
+      pathname: "/detail",
+    })
   }
 
   const handleOrderCancel = (e) => {
