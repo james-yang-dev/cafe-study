@@ -3,6 +3,7 @@ import React from 'react'
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {filteredMenuListState, orderState} from '../../store';
 import {nanoid} from "nanoid";
+import {Button} from "../../components";
 
 export function MenuList() {
   const menuList = useRecoilValue(filteredMenuListState);
@@ -24,8 +25,8 @@ const initOrderState = {
 
   const handleAddOrder = ({menuName, menuSize, menuPrice}) => (e) => {
     setSelectMenuList((menuItem) => {
-      let res = [];
-      res = {
+      // TODO : grouping
+      let res = {
         selectedMenuList: [
           ...menuItem.selectedMenuList,
           {

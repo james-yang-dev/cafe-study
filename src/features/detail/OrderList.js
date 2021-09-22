@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import React from 'react'
-import { useRecoilValue } from 'recoil';
-import { orderListState } from '../../store';
+import {useRecoilState, useRecoilValue} from 'recoil';
+import {orderListState, orderState} from '../../store';
 
 export function OrderList() {
   const orderList = useRecoilValue(orderListState);

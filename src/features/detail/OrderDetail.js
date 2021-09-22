@@ -10,6 +10,54 @@ export function OrderDetail() {
   const nextOrderId = useRecoilValue(getNextOrderId)
 
   const [menuList, setMenuList] = useRecoilState(orderState);
+  const [selectMenuList, setSelectMenuList] = useRecoilState(orderState);
+
+  const handleRemoveOrder = ({ menuId }) => (e) => {
+    setSelectMenuList((menuItem) => {
+      return {
+        selectedMenuList: menuItem?.selectedMenuList.filter((item) => item.menuId !== menuId)
+      };
+    });
+  };
+
+  const handleTakeout = ({ menuId }) => (e) => {
+    setSelectMenuList((menuItem) => {
+      let filterArr = menuItem.selectedMenuList.filter((item) => item.menuId === menuId).map((item) => {
+        const isTakeout = !item.isTakeout
+        return {
+          ...item,
+          isTakeout
+        }
+      });
+      let arr = menuItem.selectedMenuList.filter((item) => item.menuId !== menuId);
+
+      return {
+        selectedMenuList: [
+          ...arr,
+          ...filterArr,
+        ]
+      };
+    });
+  };
+
+  const handleTakeoutAll = () => {
+    setSelectMenuList((menuItem) => {
+      let newArr = menuItem.selectedMenuList.map((item) => {
+        const isTakeout = !item.isTakeout;
+        return {
+          ...item,
+          isTakeout,
+        }
+      });
+
+      return {
+        selectedMenuList: [
+          ...newArr,
+        ]
+      };
+    });
+  }
+
 
   const handleRandomOrder = () => {
     const newOrder = {
@@ -32,14 +80,22 @@ export function OrderDetail() {
       */}
       <ul>
         {
-          menuList.selectedMenuList.map(({menuId, menuName, menuPrice, menuSize, menuCount})=> {
+          menuList.selectedMenuList.map(({menuId, menuName, menuPrice, menuSize, menuCount, isTakeout})=> {
             return (
-              <li key={menuId}>{menuName} {menuSize} {menuPrice} {menuCount}</li>
+              <li key={menuId}>
+                {menuName} {menuSize} {menuPrice} {menuCount}
+                <Button onClick={handleRemoveOrder({menuId})} text="빼기"/>
+                <label>
+                  <ScreenOut>포장 여부</ScreenOut>
+                  <input type="checkbox" checked={isTakeout} onChange={handleTakeout({menuId})}/>
+                </label>
+              </li>
             )
           })
         }
       </ul>
       <Button onClick={handleRandomOrder} text={buttonText} />
+      <Button onClick={handleTakeoutAll} text="전체포장" />
     </OrderDetailWrapper>
   )
 }
@@ -47,3 +103,11 @@ export function OrderDetail() {
 const OrderDetailWrapper = styled.div`
   
 `
+const ScreenOut = styled.span`
+  overflow: hidden;
+  position: absolute;
+  width: 0;
+  height: 0;
+  line-height: 0;
+  text-indent: -9999px;
+`;

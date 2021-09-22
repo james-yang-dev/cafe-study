@@ -19,7 +19,6 @@ export const getOrderSumPrice = selector({
     const order = get(orderState)
     const orderPriceList = order.selectedMenuList.map(menu => menu.menuPrice * menu.menuCount)
     const totalPrice = orderPriceList.reduce(sumReducer, 0)
-    console.log(totalPrice);
     return totalPrice ? totalPrice : 0
   }
 });

@@ -5,7 +5,6 @@ import {getOrderSumCount, getOrderSumPrice} from "../../store";
 export function OrderInfo () {
   const totalCount = useRecoilValue(getOrderSumCount);
   const totalPrice = useRecoilValue(getOrderSumPrice);
-  console.log(totalPrice);
 
   return (
     <OrderInfoWrapper>
