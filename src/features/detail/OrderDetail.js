@@ -81,8 +81,31 @@ export function OrderDetail() {
       })
     }
   }
-  // MEMO : 주문 확인이라는 버튼이 주문한 내용을 확인하고 수정하기 위한 용도 ?
+
+  // MEMO : 주문 확인이라는 버튼이 주문한 내용을 확인하고 수정하기 위한 용도 ? 이전 주문에 대한 확인?
   const handleOrderCheck = (e) => {
+    setSelectMenuList((menuItem) => {
+      let newArr = menuItem.selectedMenuList.map((item) => {
+        const isTakeout = false;
+        return {
+          ...item,
+          isTakeout,
+        }
+      });
+
+      return {
+        selectedMenuList: [
+          ...newArr,
+        ]
+      };
+    });
+    history.push({
+      pathname: "/order",
+    })
+  }
+
+  // MEMO :
+  const handleReOrder = (e) => {
     setSelectMenuList((menuItem) => {
       let newArr = menuItem.selectedMenuList.map((item) => {
         const isTakeout = false;
@@ -131,6 +154,7 @@ export function OrderDetail() {
       <Button onClick={handleOrderCancel} text="전체취소" />
       <Button onClick={handleOrderComplete} text="주문완료" />
       <Button onClick={handleOrderCheck} text="주문확인" />
+      <Button onClick={handleReOrder} text="다시 주문 하기" />
     </OrderDetailWrapper>
   )
 }

@@ -1,12 +1,7 @@
 import { atom, selector } from "recoil";
 import { KEY } from "./key";
 
-const initOrderListState = [{
-  orderId: 0,
-  orderCount: 1,
-  orderPrice: 0,
-  orderDetail: [{}]
-}]
+const initOrderListState = []
 
 export const orderListState = atom({
   key: KEY.ORDER_LIST,
@@ -19,7 +14,7 @@ export const getNextOrderId = selector({
   get: ({ get }) => {
     const orderList = get(orderListState)
     const orderIdList = orderList.map(order => order.orderId)
-    const maxOrderId = Math.max(...orderIdList)
+    const maxOrderId = orderList.length > 0 ? Math.max(...orderIdList) : 0
 
     return maxOrderId ? maxOrderId + 1 : 1
   }
