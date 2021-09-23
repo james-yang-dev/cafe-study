@@ -24,24 +24,7 @@ const initOrderState = {
   const [selectMenuList, setSelectMenuList] = useRecoilState(orderState);
 
   const handleAddOrder = ({menuName, menuSize, menuPrice}) => (e) => {
-    setSelectMenuList((menuItem) => {
-      // TODO : grouping
-      let res = {
-        selectedMenuList: [
-          ...menuItem.selectedMenuList,
-          {
-            menuId:  nanoid(),
-            menuName,
-            menuPrice: +menuPrice,
-            menuSize,
-            menuCount: 1,
-            isTakeout: false,
-          }
-        ]
-      };
-      return res;
-    });
-
+    // TODO : 해야할 부분
   };
 
   return (
