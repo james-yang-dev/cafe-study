@@ -1,6 +1,8 @@
 import styled from '@emotion/styled'
 import React from 'react'
-import { MenuList } from '../features/order'
+import {MenuList, OrderInfo} from '../features/order'
+import {FilterList} from "../features/order";
+import {OrderDetail} from "../features/detail";
 
 export function OrderPage() {
   // 주문 페이지를 여기서 작업하세요
@@ -11,7 +13,10 @@ export function OrderPage() {
    */
   return (
     <OrderPageWrapper>
+      <OrderInfo/>
+      <FilterList />
       <MenuList />
+      <OrderDetail />
     </OrderPageWrapper>
   )
 }
