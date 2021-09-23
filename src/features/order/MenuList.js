@@ -25,6 +25,21 @@ const initOrderState = {
 
   const handleAddOrder = ({menuName, menuSize, menuPrice}) => (e) => {
     // TODO : 해야할 부분
+    setSelectMenuList((menuItem) => {
+      return {
+        selectedMenuList:
+        [
+        ...menuItem.selectedMenuList,
+        {
+        menuId: nanoid(),
+        menuName,
+        menuPrice: +menuPrice,
+        menuSize,
+        menuCount: 1,
+        isTakeout: false,
+      }
+    ]};
+    });
   };
 
   return (
