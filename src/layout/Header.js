@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 export function Header() {
   return (
     <HeaderStyled>
-      <Link to={'/order'}>order</Link>
+      <Link to={'/order'}>order1/Link>
       <Link to={'/detail'}>detail</Link>
     </HeaderStyled>
   );
